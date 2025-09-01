@@ -1,5 +1,5 @@
 # codeducation
-This is a training project for Senasoft, open source development.  It consists of a Netflix-inspired educational streaming platform.
+Este es un proyecto de capacitación para Senasoft, desarrollado en código abierto. Consiste en una plataforma de streaming educativo inspirada en Netflix.
 
 
 --Estructura de carpetas--
