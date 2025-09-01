@@ -1,0 +1,15 @@
+{
+  "name": "codeducation",
+  "private":true,
+  "description": "This is a training project for Senasoft, open source development.  It consists of a Netflix-inspired educational streaming platform.",
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:backend": "npm run dev --workspaces=backend"
+  },
+  "keywords": [],
+  "author": "little-Johny",
+  "license": "ISC"
+}
