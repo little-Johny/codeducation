@@ -1,5 +1,4 @@
 "use strict";
-const { useDeferredValue } = require("react");
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -23,10 +22,22 @@ module.exports = (sequelize, DataTypes) => {
         as: "favorites",
         foreignKey: "userId",
       });
+
+      User.belongsToMany(models.Lessons, {
+        through: models.UserLikes,
+        as: "likedLessons",
+        foreignKey: "userId",
+        otherKey: "lessonId",
+      });
     }
   }
   User.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
       name: { type: DataTypes.STRING, allowNull: false },
       email: { type: DataTypes.STRING, unique: true, allowNull: false },
       password: { type: DataTypes.STRING, allowNull: false },
@@ -35,15 +46,17 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "student",
         allowNull: false,
       },
-      theme: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }, // Por defecto sera
+      theme: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }, // Por defecto sera false(black)
     },
     {
       sequelize,
       modelName: "User",
-      tableName: "Users",
+      tableName: "users",
       timestamps: true,
       paranoid: true,
-      deletedAt: "deletedAt",
+      deletedAt: "deleted_at",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
     }
   );
   return User;

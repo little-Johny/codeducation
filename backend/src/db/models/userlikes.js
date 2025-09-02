@@ -1,32 +1,25 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Course extends Model {
+  class UserLikes extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Course.belongsTo(models.User, {
-        as: "author",
+      UserLikes.belongsTo(models.User, {
+        as: "user",
         foreignKey: "userId",
       });
 
-      Course.hasMany(models.Lessons, {
-        as: "lessons",
-        foreignKey: "courseId",
-      });
-
-      Course.belongsToMany(models.User, {
-        through: models.UserFavorites,
-        as: "favorites",
-        foreignKey: "courseId",
-        otherKey: "userId",
+      UserLikes.belongsTo(models.Lessons, {
+        as: "lesson",
+        foreignKey: "lessonId",
       });
     }
   }
-  Course.init(
+  UserLikes.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -35,24 +28,31 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.UUID,
-        allowNull: true,
+        allowNull: false,
         field: "user_id",
         references: {
           model: "users",
           key: "id",
         },
-        onDelete: "SET NULL",
         onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      title: { type: DataTypes.STRING, allowNull: false, unique: true },
-      image: { type: DataTypes.STRING, allowNull: false },
-      category: { type: DataTypes.STRING, allowNull: false },
-      description: { type: DataTypes.STRING, allowNull: true },
+      lessonId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        field: "lesson_id",
+        references: {
+          model: "lessons",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
     },
     {
       sequelize,
-      modelName: "Course",
-      tableName: "courses",
+      modelName: "UserLikes",
+      tableName: "user_likes",
       timestamps: true,
       paranoid: true,
       deletedAt: "deleted_at",
@@ -60,5 +60,5 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: "updated_at",
     }
   );
-  return Course;
+  return UserLikes;
 };

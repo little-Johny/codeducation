@@ -1,58 +1,57 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Course extends Model {
+  class Lessons extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Course.belongsTo(models.User, {
-        as: "author",
-        foreignKey: "userId",
-      });
-
-      Course.hasMany(models.Lessons, {
-        as: "lessons",
+      Lessons.belongsTo(models.Course, {
+        as: "course",
         foreignKey: "courseId",
       });
 
-      Course.belongsToMany(models.User, {
-        through: models.UserFavorites,
-        as: "favorites",
-        foreignKey: "courseId",
+      Lessons.belongsToMany(models.User, {
+        through: models.UserLikes,
+        as: "likedByUsers",
+        foreignKey: "lessonId",
         otherKey: "userId",
+      });
+
+      Lessons.hasMany(models.Files, {
+        as: "files",
+        foreignKey: "lessonId",
       });
     }
   }
-  Course.init(
+  Lessons.init(
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      userId: {
+      courseId: {
         type: DataTypes.UUID,
-        allowNull: true,
-        field: "user_id",
+        allowNull: false,
+        field: "course_id",
         references: {
-          model: "users",
+          model: "courses",
           key: "id",
         },
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
         onUpdate: "CASCADE",
       },
-      title: { type: DataTypes.STRING, allowNull: false, unique: true },
-      image: { type: DataTypes.STRING, allowNull: false },
-      category: { type: DataTypes.STRING, allowNull: false },
+      name: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: true },
+      videoUrl: { type: DataTypes.STRING, allowNull: true, field: "video_url" },
     },
     {
       sequelize,
-      modelName: "Course",
-      tableName: "courses",
+      modelName: "Lessons",
+      tableName: "lessons",
       timestamps: true,
       paranoid: true,
       deletedAt: "deleted_at",
@@ -60,5 +59,5 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: "updated_at",
     }
   );
-  return Course;
+  return Lessons;
 };

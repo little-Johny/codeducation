@@ -5,7 +5,7 @@ Este es un proyecto de capacitación para Senasoft, desarrollado en código abie
 --Estructura de carpetas--
 
 
-
+```bash
 edustream-pro/
 │
 ├── backend/               # Backend (Express + Sequelize)
@@ -40,3 +40,4 @@ edustream-pro/
 ├── README.md
  
 └── package.json       # opcional si quieres usar workspaces
+```
