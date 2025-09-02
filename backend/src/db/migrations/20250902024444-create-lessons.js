@@ -2,32 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("courses", {
+    await queryInterface.createTable("lessons", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("uuid_generate_v4()"),
         primaryKey: true,
       },
-      user_id: {
+      course_id: {
         type: Sequelize.UUID,
-        allowNull: true,
+        allowNull: false,
         references: {
-          model: "users", // referencia a la tabla users
+          model: "courses",
           key: "id",
         },
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
         onUpdate: "CASCADE",
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      image: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      category: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -35,24 +26,21 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      video_url: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-      },
-      deleted_at: {
-        type: Sequelize.DATE,
-        allowNull: true,
       },
     });
   },
-
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("courses");
+    await queryInterface.dropTable("lessons");
   },
 };
