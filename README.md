@@ -2,7 +2,7 @@
 Este es un proyecto de capacitación para Senasoft, desarrollado en código abierto. Consiste en una plataforma de streaming educativo inspirada en Netflix.
 
 
---Estructura de carpetas--
+## Estructura de carpetas
 
 
 ```bash
