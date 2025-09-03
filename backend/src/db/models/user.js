@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
       });
 
+      // Un usuario puede tener muchos favoritos
       User.belongsToMany(models.Lessons, {
         through: models.UserLikes,
         as: "likedLessons",

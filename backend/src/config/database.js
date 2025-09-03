@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-const { config } = require('./config');
+const { Sequelize } = require("sequelize");
+const { config } = require("./config");
 
 // proteger password por si tiene caracteres especiales
 const password = encodeURIComponent(config.db.password);
@@ -12,8 +12,9 @@ const sequelize = new Sequelize(URI, {
 });
 
 // testear conexión
-sequelize.authenticate()
-  .then(() => console.log('✅ Conectado a la base de datos'))
-  .catch(err => console.error('❌ Error de conexión:', err));
+sequelize
+  .authenticate()
+  .then(() => console.log("✅ Conectado a la base de datos"))
+  .catch((err) => console.error("❌ Error de conexión:", err));
 
-module.exports = sequelize;
+module.exports = { sequelize };
