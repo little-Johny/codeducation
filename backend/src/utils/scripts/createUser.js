@@ -11,10 +11,11 @@ const authService = new AuthService(userRepository);
     await sequelize.authenticate();
 
     const user = await authService.register({
-      name: "Admin",
-      email: "admin@example.com",
+      name: "Toby",
+      email: "totoy@example.com",
       password: "123456", // debería encriptar
       role: "admin",
+      theme: false,
     });
 
     console.log("Usuario creado exitosamente", user.toJSON());

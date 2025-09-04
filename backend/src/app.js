@@ -12,6 +12,9 @@ const {
 const responseHandler = require("./middlewares/responseHandler");
 const routes = require("./routes");
 
+// ejecutar passport config
+require("./config/passport")(passport);
+
 const app = express();
 
 // Middlewares globales
@@ -20,13 +23,13 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(passport.initialize());
 
-// 👉 Response handler (antes de las rutas)
+// Response handler
 app.use(responseHandler);
 
 // Rutas
 routes(app);
 
-// Middlewares de error (después de las rutas)
+// Middlewares de error
 app.use(logErrors);
 app.use(errorHandler);
 app.use(boomErrorHandler);
