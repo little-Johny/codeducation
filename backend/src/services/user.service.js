@@ -8,7 +8,13 @@ class UserService {
   }
 
   async getUserById(id) {
-    return this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user;
   }
 
   async updateUser(id, data) {
