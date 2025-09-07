@@ -9,7 +9,7 @@ const userSchema = {
       .required(),
     role: Joi.string().valid("student", "teacher", "admin").default("student"),
     theme: Joi.boolean().default(false),
-  }),
+  }).options({ stripUnknown: true }),
   login: Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
@@ -19,10 +19,10 @@ const userSchema = {
     email: Joi.string().email(),
     role: Joi.string().valid("student", "teacher", "admin"),
     theme: Joi.boolean(),
-  }),
+  }).options({ stripUnknown: true }),
   getUser: Joi.object({
     id: Joi.string().uuid().required(),
-  }),
+  }).options({ stripUnknown: true }),
 };
 
 module.exports = { userSchema };

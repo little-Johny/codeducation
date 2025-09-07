@@ -18,11 +18,25 @@ class UserService {
   }
 
   async updateUser(id, data) {
-    return await this.userRepository.update(id, data);
+    const oldUser = await this.getUserById(id);
+    const before = {};
+    for (const key of Object.keys(data)) {
+      before[key] = oldUser[key];
+    }
+    const newUser = await oldUser.update(data);
+    const after = {};
+    for (const key of Object.keys(data)) {
+      after[key] = newUser[key];
+    }
+    return {
+      before,
+      after,
+    };
   }
 
   async deleteUser(id) {
-    return await this.userRepository.delete(id);
+    const user = await this.getUserById(id);
+    return await user.destroy(id);
   }
 }
 

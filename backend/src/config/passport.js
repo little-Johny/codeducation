@@ -11,7 +11,7 @@ module.exports = (passport) => {
   console.log("✅ Estrategia JWT cargada");
   passport.use(
     new JwtStrategy(opts, async (jwt_payload, done) => {
-      try {
+      try { 
         const user = await User.findByPk(jwt_payload.id);
         if (!user) {
           return done(null, false);
