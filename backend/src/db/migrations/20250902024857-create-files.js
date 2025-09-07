@@ -7,6 +7,7 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("uuid_generate_v4()"),
         primaryKey: true,
+        comment: "Identificador del archivo",
       },
       lesson_id: {
         type: Sequelize.UUID,
@@ -17,18 +18,22 @@ module.exports = {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+        comment: "Relacion con la lecciona la que pertenece el archivo",
       },
       filename: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        comment: "Nombre del archivo",
       },
       url: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        comment: "URL del archivo",
       },
       type: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        comment: "Tipo de archivo",
       },
       created_at: {
         allowNull: false,

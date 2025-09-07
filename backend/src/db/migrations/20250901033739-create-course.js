@@ -7,6 +7,7 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("uuid_generate_v4()"),
         primaryKey: true,
+        comment: "Identificador del curso",
       },
       user_id: {
         type: Sequelize.UUID,
@@ -17,23 +18,28 @@ module.exports = {
         },
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
+        comment: "Relacion con usuarios",
       },
       title: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
+        comment: "Titulo del curso",
       },
       image: {
         type: Sequelize.STRING,
         allowNull: false,
+        comment: "Imagen de portada del curso",
       },
       category: {
         type: Sequelize.STRING,
         allowNull: false,
+        comment: "Categoria del curso",
       },
       description: {
         type: Sequelize.STRING,
         allowNull: true,
+        comment: "Descripcion basica del curso",
       },
       created_at: {
         allowNull: false,

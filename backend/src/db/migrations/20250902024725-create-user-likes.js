@@ -1,12 +1,13 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('user_likes', {
+    await queryInterface.createTable("user_likes", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("uuid_generate_v4()"),
         primaryKey: true,
+        comment: "Identificador de el like",
       },
       user_id: {
         type: Sequelize.UUID,
@@ -17,6 +18,7 @@ module.exports = {
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
+        comment: "Relacion con el usuario que dio like",
       },
       lesson_id: {
         type: Sequelize.UUID,
@@ -27,6 +29,7 @@ module.exports = {
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
+        comment: "Relacion con la leccion a la que se le dio like",
       },
       created_at: {
         allowNull: false,
@@ -39,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('user_likes');
-  }
+    await queryInterface.dropTable("user_likes");
+  },
 };

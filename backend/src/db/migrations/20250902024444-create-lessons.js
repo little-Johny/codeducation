@@ -7,6 +7,7 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("uuid_generate_v4()"),
         primaryKey: true,
+        comment: "Identificador de la leccion",
       },
       course_id: {
         type: Sequelize.UUID,
@@ -17,18 +18,22 @@ module.exports = {
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
+        comment: "Relacion con el curso al que pertenece la leccion",
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
+        comment: "Nombre de la leccion",
       },
       description: {
         type: Sequelize.STRING,
         allowNull: true,
+        comment: "Descripcion de la leccion",
       },
       video_url: {
         type: Sequelize.STRING,
         allowNull: false,
+        comment: "URL del video de la leccion",
       },
       created_at: {
         allowNull: false,
