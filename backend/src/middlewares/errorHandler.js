@@ -1,10 +1,10 @@
-const  boom = require('@hapi/boom');
+const boom = require("@hapi/boom");
 
-function logErrors (err, req, res, next) {
+function logErrors(err, req, res, next) {
   console.log(`LogError`);
   console.error(err);
   next(err);
-};
+}
 
 function errorHandler(err, req, res, next) {
   console.log(`Errorhandler`);
@@ -14,14 +14,22 @@ function errorHandler(err, req, res, next) {
   });
 
   next(err);
-};
+}
 
 function boomErrorHandler(err, req, res, next) {
-  if (err.isBoom) {
+  // Si el error ya es Boom
+  if (boom.isBoom(err)) {
     const { output } = err;
-    res.status(output.statusCode).json(output.payload);
+    return res.status(output.statusCode).json(output.payload);
   }
-  next(err);
-};
+
+  // Si no es Boom, lo convertimos en un 500 genérico
+  console.error(err); // para debugging
+  return res.status(500).json({
+    statusCode: 500,
+    error: "Internal Server Error",
+    message: err.message || "Something went wrong",
+  });
+}
 
 module.exports = { logErrors, errorHandler, boomErrorHandler };

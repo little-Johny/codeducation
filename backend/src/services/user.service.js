@@ -1,3 +1,5 @@
+const boom = require("@hapi/boom");
+
 class UserService {
   constructor(userRepository) {
     this.userRepository = userRepository;
@@ -11,7 +13,7 @@ class UserService {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
-      throw new Error("User not found");
+      throw boom.notFound("User not found");
     }
 
     return user;
