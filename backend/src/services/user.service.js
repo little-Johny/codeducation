@@ -6,15 +6,14 @@ class UserService {
   }
 
   async getUsers() {
-    return this.userRepository.findAll();
+    const users = await this.userRepository.findAll();
+    return users;
   }
 
   async getUserById(id) {
     const user = await this.userRepository.findById(id);
 
-    if (!user) {
-      throw boom.notFound("User not found");
-    }
+    if (!user) throw boom.notFound("User not found");
 
     return user;
   }
