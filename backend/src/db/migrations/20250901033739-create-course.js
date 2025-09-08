@@ -28,7 +28,7 @@ module.exports = {
       },
       image: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         comment: "Imagen de portada del curso",
       },
       category: {

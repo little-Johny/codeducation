@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
 const passport = require("passport");
@@ -22,6 +23,8 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(passport.initialize());
+app.use(express.urlencoded({ extended: true }));
+app.use("/files", express.static(path.join(__dirname, "../uploads")));
 
 // Response handler
 app.use(responseHandler);
