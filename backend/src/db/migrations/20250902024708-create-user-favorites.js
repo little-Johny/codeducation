@@ -40,6 +40,12 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.addConstraint("user_favorites", {
+      fields: ["user_id", "course_id"],
+      type: "unique",
+      name: "user_favorites_unique",
+    })
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("user_favorites");

@@ -58,6 +58,12 @@ module.exports = (sequelize, DataTypes) => {
       deletedAt: "deleted_at",
       createdAt: "created_at",
       updatedAt: "updated_at",
+      indexes: [
+        {
+          unique: true,
+          fields: ["user_id", "course_id"],
+        },
+      ]
     }
   );
   return UserFavorites;
