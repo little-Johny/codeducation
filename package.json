@@ -3,11 +3,13 @@
   "private":true,
   "description": "This is a training project for Senasoft, open source development.  It consists of a Netflix-inspired educational streaming platform.",
   "workspaces": [
-    "backend"
+    "backend",
+    "frontend"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:backend": "npm run dev --workspaces=backend"
+    "dev:backend": "npm run dev --workspace backend",
+    "dev:frontend": "npm run dev --workspace frontend"
   },
   "keywords": [],
   "author": "little-Johny",
