@@ -20,8 +20,7 @@ class userFavoritesController {
 
   async addFavorite(req, res, next) {
     try {
-      const { userId, courseId } = req.body;
-      const favorite = await this.userFavoritesService.add(userId, courseId);
+      const favorite = await this.userFavoritesService.add(req.body);
       res.success(favorite, "Curso favorito agregado exitosamente", 201);
     } catch (error) {
       next(error);
