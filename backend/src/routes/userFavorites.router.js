@@ -1,4 +1,6 @@
 const express = require("express");
+const validateHandler = require("./../middlewares/validationHandler");
+const { userFavoritesSchema } = require("./../schemas/userFavorites.schema");
 
 const { User } = require("./../db/models");
 const { Course } = require("./../db/models");
@@ -30,9 +32,53 @@ const userFavoritesController = new UserFavoritesController(
 
 const router = express.Router();
 
-router.get("/:userId", userFavoritesController.getByUserId);
-router.post("/", userFavoritesController.addFavorite);
-router.delete("/:userId", userFavoritesController.deleteFavorite);
-router.delete("/all", userFavoritesController.deleteAllFavorites);
+// Obtener favoritos de un usuario
+router.get(
+  "/user/:userId",
+  validateHandler(userFavoritesSchema.getUserFavorites, "params"),
+  userFavoritesController.getByUserId
+);
+
+// Agregar curso a favoritos
+router.post(
+  "/",
+  validateHandler(userFavoritesSchema.addFavorite, "body"),
+  userFavoritesController.addFavorite
+);
+
+// Toggle favorito (agregar/quitar)
+router.post(
+  "/toggle",
+  validateHandler(userFavoritesSchema.toggleFavorite, "body"),
+  userFavoritesController.toggleFavorite
+);
+
+// Verificar si un curso es favorito
+router.get(
+  "/check/:userId/:courseId",
+  validateHandler(userFavoritesSchema.checkFavorite, "params"),
+  userFavoritesController.checkFavorite
+);
+
+// Obtener conteo de favoritos de un usuario
+router.get(
+  "/count/:userId",
+  validateHandler(userFavoritesSchema.getFavoritesCount, "params"),
+  userFavoritesController.getFavoritesCount
+);
+
+// Eliminar favorito específico
+router.delete(
+  "/:userId/:courseId",
+  validateHandler(userFavoritesSchema.deleteFavorite, "params"),
+  userFavoritesController.deleteFavorite
+);
+
+// Eliminar todos los favoritos de un usuario
+router.delete(
+  "/all/:userId",
+  validateHandler(userFavoritesSchema.deleteAllFavorites, "params"),
+  userFavoritesController.deleteAllFavorites
+);
 
 module.exports = router;

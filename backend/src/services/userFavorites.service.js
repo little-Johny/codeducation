@@ -50,6 +50,54 @@ class UserFavoritesService {
     async deleteAll(userId) {
         return await this.userFavoritesRepository.deleteAll(userId);
     }
+
+    async checkFavorite(userId, courseId) {
+        try {
+            const favorite = await this.userFavoritesRepository.findByUserAndCourse(userId, courseId);
+            return !!favorite;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async toggleFavorite(userId, courseId) {
+        const transaction = await sequelize.transaction();
+        
+        try {
+            // Verificar que el usuario existe
+            await this.userService.getUserById(userId);
+
+            // Verificar que el curso existe
+            await this.courseService.getCourseById(courseId);
+
+            // Buscar favorito existente
+            const existingFavorite = await this.userFavoritesRepository.findByUserAndCourse(userId, courseId);
+            
+            if (existingFavorite) {
+                // Si existe, eliminarlo
+                await existingFavorite.destroy({ transaction });
+                await transaction.commit();
+                return { favorited: false, message: "Favorite removed" };
+            } else {
+                // Si no existe, crearlo
+                const newFavorite = await this.userFavoritesRepository.create({ userId, courseId }, { transaction });
+                await transaction.commit();
+                return { favorited: true, favorite: newFavorite, message: "Favorite added" };
+            }
+        } catch (error) {
+            await transaction.rollback();
+            throw error;
+        }
+    }
+
+    async getFavoritesCount(userId) {
+        try {
+            const count = await this.userFavoritesRepository.countByUserId(userId);
+            return count;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = UserFavoritesService;

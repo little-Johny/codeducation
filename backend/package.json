@@ -16,7 +16,9 @@
     "seed:generate-users": "node src/utils/scripts/generateTestUsers.js",
     "seed:generate-users:clear": "node src/utils/scripts/generateTestUsers.js --clear",
     "seed:run": "sequelize-cli db:seed:all",
-    "seed:undo": "sequelize-cli db:seed:undo:all"
+    "seed:undo": "sequelize-cli db:seed:undo:all",
+    "seed:all": "npm run seed:users && npm run seed:run",
+    "seed:all:clear": "npm run seed:users:clear && npm run seed:run"
   },
   "keywords": [],
   "author": "",
