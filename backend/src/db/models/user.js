@@ -18,9 +18,10 @@ module.exports = (sequelize, DataTypes) => {
 
       // Un usuario puede tener muchos favoritos
       User.belongsToMany(models.Course, {
-        through: "UserFavorites",
+        through: models.UserFavorites,
         as: "favorites",
         foreignKey: "userId",
+        otherKey: "courseId",
       });
 
       // Un usuario puede tener muchos favoritos

@@ -32,6 +32,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    volumes:
+      - codeducation_pgadmin:/var/lib/pgadmin
 
 volumes:
     codeducation_pgdata:
+    codeducation_pgadmin:
