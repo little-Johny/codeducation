@@ -1,7 +1,10 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
-  themes: retro --default;
-};
+    themes: dark --default;
+}
+
+;
 
 * {
     font-family: Montserrat, system-ui, -apple-system, BlinkMacSystemFont,
