@@ -10,7 +10,13 @@
     "migrations:run": "sequelize-cli db:migrate",
     "migrations:revert": "sequelize-cli db:migrate:undo",
     "migrations:delete": "sequelize-cli db:migrate:undo:all",
-    "model:generate": "sequelize-cli model:generate --name"
+    "model:generate": "sequelize-cli model:generate --name",
+    "seed:users": "node src/utils/scripts/seedUsers.js",
+    "seed:users:clear": "node src/utils/scripts/seedUsers.js --clear",
+    "seed:generate-users": "node src/utils/scripts/generateTestUsers.js",
+    "seed:generate-users:clear": "node src/utils/scripts/generateTestUsers.js --clear",
+    "seed:run": "sequelize-cli db:seed:all",
+    "seed:undo": "sequelize-cli db:seed:undo:all"
   },
   "keywords": [],
   "author": "",

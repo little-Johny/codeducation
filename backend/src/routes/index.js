@@ -2,6 +2,7 @@ const express = require("express");
 const authRouter = require("./auth.router");
 const userRouter = require("./user.router");
 const courseRouter = require("./course.router");
+const lessonRouter = require("./lesson.router");
 const userFavoriteRouter = require("./userFavorites.router");
 
 function routes(app) {
@@ -16,6 +17,7 @@ function routes(app) {
   router.use("/auth", authRouter);
   router.use("/users", userRouter);
   router.use("/courses", courseRouter);
+  router.use("/lessons", lessonRouter);
   router.use("/favorites", userFavoriteRouter);
 }
 
