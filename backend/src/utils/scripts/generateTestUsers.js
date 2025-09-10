@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { sequelize } = require("../../db/models");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // Generador de nombres y emails aleatorios
 const firstNames = [

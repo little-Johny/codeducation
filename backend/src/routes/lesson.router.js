@@ -29,12 +29,12 @@ router.get(
 router.post(
   "/",
   validateHandler(lessonSchema.create, "body"),
-  upload(path.join(__dirname, "../../uploads/lessons")).single("video"),
+  upload(path.join(__dirname, "../../uploads/lessons")).single("videoUrl"),
   lessonController.createLesson
 );
 router.post(
   "/:id/video",
-  upload(path.join(__dirname, "../../uploads/lessons")).single("video"),
+  upload(path.join(__dirname, "../../uploads/lessons")).single("videoUrl"),
   validateHandler(lessonSchema.getLesson, "params"),
   lessonController.addLessonVideo
 );
