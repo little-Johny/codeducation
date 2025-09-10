@@ -1,9 +1,17 @@
 import Logo from "../assets/plataforma software.png";
 import ImgPort from "../assets/DSC04537 (1) (1).JPG";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+    const navigate = useNavigate();
+
+    const handleLogin = (e) => {
+        e.preventDefault;
+        navigate("/dashboard");
+    };
+
     return (
-        <div className="flex flex-col-reverse sm:flex-row h-screen sm:h-full  sm:m-0 shadow-2xl/30  shadow-orange-500 rounded-lg overflow-hidden bg-base-300">
+        <div className="flex flex-col-reverse sm:flex-row h-screen sm:h-full  sm:m-0 shadow-2xl/30  rounded-lg overflow-hidden bg-base-300">
             <div className="flex flex-col basis-4/5 sm:basis-1/2 h-full w-full max-w-4xl overflow-hidden p-2">
                 {/* Logo */}
                 <figure className="p-2">
@@ -21,7 +29,7 @@ export default function Home() {
                         <h2 className="text-2xl font-bold">Bienvenido</h2>
                     </div>
 
-                    <form className="flex flex-col flex-grow gap-4 w-full max-w-sm mx-auto">
+                    <form className="flex flex-col flex-grow gap-4 w-full max-w-sm mx-auto" onSubmit={handleLogin}>
                         {/* Usuario */}
                         <input
                             type="text"
@@ -87,6 +95,12 @@ export default function Home() {
                             Continuar con Google
                         </button>
                     </form>
+                    <div className=" flex flex-col items-center justify-center">
+                        <div className="text-xs text-center text-base-content pt-4 pb-4 lg:pb-0">
+                            © {new Date().getFullYear()} Plataforma Software. Todos los derechos
+                            reservados.
+                        </div>
+                    </div>
                 </div>
             </div>
 
