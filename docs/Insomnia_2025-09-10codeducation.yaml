@@ -1,0 +1,1041 @@
+type: collection.insomnia.rest/5.0
+name: codeducation
+meta:
+  id: wrk_13a34afc3bf142929561a642cafadd3c
+  created: 1756948204162
+  modified: 1756948204162
+  description: ""
+collection:
+  - name: USER
+    meta:
+      id: fld_9b50a279275048b596a9244ca8a9bb3f
+      created: 1757209622311
+      modified: 1757209622311
+      sortKey: -1757209622311
+      description: ""
+    children:
+      - url: localhost:3000/api/auth/register
+        name: REGISTER
+        meta:
+          id: req_2b983f98f1664229b47f234c3d291fdd
+          created: 1756948213046
+          modified: 1757210503167
+          isPrivate: false
+          description: ""
+          sortKey: -1757209626446
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name":"kwaki",
+            	"email":"mondi@gmail.com",
+            	"password":"12345Aa@",
+            	"role":"student",
+            	"theme":true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.4.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/auth/login
+        name: LOGIN
+        meta:
+          id: req_349ddb5753444a589d8caf214a466078
+          created: 1756951498234
+          modified: 1757209645112
+          isPrivate: false
+          description: ""
+          sortKey: -1757209626346
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email":"mondi@gmail.com",
+            	"password":"123456",
+            	"theme":true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.4.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/auth/session
+        name: GET SESSION
+        meta:
+          id: req_867ce5038b134cfa85f808293a7b0922
+          created: 1756954850165
+          modified: 1757209652122
+          isPrivate: false
+          description: ""
+          sortKey: -1757209626296
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        authentication:
+          type: bearer
+          prefix: ""
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM0NWJjNjNlLTEzOGMtNDY3OC1hM2FmLWNhODIxMDQ0ODJiMyIsImlhdCI6MTc1Njk1NDEwMn0.zgIrkBaV-J7qtC3ePwJ84aBkZBAUPq_0_PVreyhZDIk
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/users/f8591056-684b-45bc-a989-f7f4b2154f8b
+        name: PATCH
+        meta:
+          id: req_59341b71e29d42538428dfcb52d9143f
+          created: 1757202763971
+          modified: 1757294336545
+          isPrivate: false
+          description: ""
+          sortKey: -1757209626158.5
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name":"Jousecillo"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/users
+        name: GET
+        meta:
+          id: req_05d822fc99c94f7195ede30e59b263d1
+          created: 1757202797438
+          modified: 1757209633716
+          isPrivate: false
+          description: ""
+          sortKey: -1757209626196
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/users/6dee4760-ed1d-48bc-9d16-6b89fe9ff849
+        name: GET BY ID
+        meta:
+          id: req_af9df18f2faa4832a37a29202d03c747
+          created: 1757206966429
+          modified: 1757300211111
+          isPrivate: false
+          description: ""
+          sortKey: -1757209626246
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/users/f8591056-684b-45bc-a989-f7f4b2154f8b
+        name: DELETE
+        meta:
+          id: req_f2ac90236920449e9c27452d8d2f9cce
+          created: 1757209081991
+          modified: 1757209629760
+          isPrivate: false
+          description: ""
+          sortKey: -1757209626146
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: COURSES
+    meta:
+      id: fld_8b673dbbff7447fbb41d9ac0c1cbfebb
+      created: 1757209727610
+      modified: 1757294317356
+      sortKey: -1757209727611
+      description: ""
+    children:
+      - url: localhost:3000/api/courses
+        name: CREATE
+        meta:
+          id: req_059bc8421eb3457585911d61d145f175
+          created: 1757287105660
+          modified: 1757555227640
+          isPrivate: false
+          description: ""
+          sortKey: -1757292983330
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: title
+              value: Nuevo curso
+              id: pair_fd00367276074d2fb99835f35080ac0d
+            - id: pair_282186506f1c4736813a448a4c8946e5
+              name: category
+              value: develop
+              description: ""
+              disabled: false
+            - id: pair_7e35cae973af48fda820397897ea5577
+              name: image
+              value: ""
+              description: ""
+              disabled: false
+              type: file
+              fileName: C:\Users\molan\Downloads\ChatGPT Image 24 ago 2025, 20_28_23.png
+            - id: pair_60f6f6294583455ca2371eb1729bb4f8
+              name: description
+              value: este es un nuevo curso de los mas nuevos
+              description: ""
+              disabled: false
+            - id: pair_a0052668a1d14bb8b9ccb41df5416595
+              name: userId
+              value: 01307b51-4458-43b8-939d-ba05cd8b1390
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/courses/bc50cd03-abfb-406b-8eb4-7fd205f86d20/files
+        name: ADD IMAGE
+        meta:
+          id: req_76efe0b605f54f5bae09481d44ad955b
+          created: 1757287898017
+          modified: 1757294324723
+          isPrivate: false
+          description: ""
+          sortKey: -1757292983280
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_dad4166af2ae44118761d1e26edd26b4
+              name: image
+              value: ""
+              description: ""
+              disabled: false
+              type: file
+              multiline: true
+              fileName: C:\Users\molan\Downloads\frame.png
+        parameters:
+          - id: pair_a47c4600ee7b4b77a16bc9194c495c71
+            name: ""
+            value: ""
+            description: ""
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/courses/bc50cd03-abfb-406b-8eb4-7fd205f86d20
+        name: GET BY ID
+        meta:
+          id: req_573b6089445d43a9a2b5efa7b86a1ac4
+          created: 1757292978256
+          modified: 1757293159264
+          isPrivate: false
+          description: ""
+          sortKey: -1757287898117
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/courses
+        name: GET
+        meta:
+          id: req_c074bdeefcb9470197eda6f539cdbad2
+          created: 1757292983130
+          modified: 1757293118758
+          isPrivate: false
+          description: ""
+          sortKey: -1757292983130
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/courses/search
+        name: GET BY CATEGORY
+        meta:
+          id: req_ccdabd8d273041eba999e58d06b603c7
+          created: 1757293133894
+          modified: 1757294284183
+          isPrivate: false
+          description: ""
+          sortKey: -1757287898067
+        method: GET
+        parameters:
+          - id: pair_f1a4dc4f00564ea88d2a460ebe109249
+            name: category
+            value: develop
+            description: ""
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/courses/bc50cd03-abfb-406b-8eb4-7fd205f86d20
+        name: PATCH
+        meta:
+          id: req_6d205a6363a9415fb789e9bfc9d305ed
+          created: 1757294318350
+          modified: 1757294396444
+          isPrivate: false
+          description: ""
+          sortKey: -1757287897967
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"title":"Titulo cambiado"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/courses/bc50cd03-abfb-406b-8eb4-7fd205f86d20
+        name: DELETE
+        meta:
+          id: req_a1f8277c9c714abba709e30b77deef39
+          created: 1757294347119
+          modified: 1757294775965
+          isPrivate: false
+          description: ""
+          sortKey: -1757287897867
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: FAVORITES
+    meta:
+      id: fld_1aa327e4f1d44e5aae4a3bc6d528cb82
+      created: 1757299636014
+      modified: 1757299684617
+      sortKey: -1757299636014
+      description: ""
+    children:
+      - url: localhost:3000/api/favorites/6af55ded-0676-4333-b14e-6b0ed0e35f7f
+        name: GET BY USER ID
+        meta:
+          id: req_a92ac542dfca4f998b744e9e82d163b1
+          created: 1757299639464
+          modified: 1757468317415
+          isPrivate: false
+          description: ""
+          sortKey: -1757299688341
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/favorites
+        name: ADD FAVORITE
+        meta:
+          id: req_ec5d16f3fdff4a5ea54067421169c45d
+          created: 1757299669917
+          modified: 1757389760611
+          isPrivate: false
+          description: ""
+          sortKey: -1757299688391
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"userId":"6af55ded-0676-4333-b14e-6b0ed0e35f7f",
+            	"courseId":"7025f5e0-cd19-49e9-87a1-702f1a5c9f15"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/favorites/
+        name: DELETE ALL
+        meta:
+          id: req_6176f09270d94007ae8b46c47d8d1ddb
+          created: 1757299686565
+          modified: 1757299789992
+          isPrivate: false
+          description: ""
+          sortKey: -1757299686565
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/favorites/6af55ded-0676-4333-b14e-6b0ed0e35f7f
+        name: DELETE
+        meta:
+          id: req_42f83194fad3461c81f8dd5084b3f2c1
+          created: 1757299688291
+          modified: 1757468380971
+          isPrivate: false
+          description: ""
+          sortKey: -1757299688291
+        method: DELETE
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"courseId":"7025f5e0-cd19-49e9-87a1-702f1a5c9f15"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: LESSONS
+    meta:
+      id: fld_f879bb336d344e279972c397132420f1
+      created: 1757473836888
+      modified: 1757473836888
+      sortKey: -1757473836888
+      description: ""
+    children:
+      - url: localhost:3000/api/lessons
+        name: CREATE
+        meta:
+          id: req_80da488eb715489aacb2402c17cb23a2
+          created: 1757473917174
+          modified: 1757555834365
+          isPrivate: false
+          description: ""
+          sortKey: -1757555534222
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_acc1e1f30ebb4adc84cb8b1ebf36a021
+              name: name
+              value: Second lesson
+              description: ""
+              disabled: false
+            - id: pair_6d7ec81b61ab4182892a97c71ba18d4f
+              name: description
+              value: description
+              description: ""
+              disabled: false
+            - id: pair_40da802a39824b13a4870e0dd72d2b11
+              name: courseId
+              value: f4170661-ffdb-4820-9828-7c42662b2a53
+              description: ""
+              disabled: false
+            - id: pair_7d20bff8b24a417393a20551207721df
+              name: videoUrl
+              value: https://www.youtube.com/watch?v=abc123
+              description: ""
+              disabled: false
+              type: file
+              fileName: C:\Users\molan\Videos\Screen Recordings\Screen Recording 2024-10-04
+                094943.mp4
+              multiline: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/lessons
+        name: GET
+        meta:
+          id: req_8902b39922824d188c8b2c0ff0bed86f
+          created: 1757474885788
+          modified: 1757555708586
+          isPrivate: false
+          description: ""
+          sortKey: -1757474885788
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/lessons/course/f4170661-ffdb-4820-9828-7c42662b2a53
+        name: GET BY COURSE
+        meta:
+          id: req_901b355267a546a5a10b9c8fad7b7b5d
+          created: 1757554199455
+          modified: 1757555722369
+          isPrivate: false
+          description: ""
+          sortKey: -1757474401481
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/lessons/c4fdee67-8b73-4e61-8a6a-f63a0e5b6ab6
+        name: GET BY ID
+        meta:
+          id: req_561b34b4d47d4aa7882eb308afb958d6
+          created: 1757554264203
+          modified: 1757555851222
+          isPrivate: false
+          description: ""
+          sortKey: -1757474643634.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/lessons/c4fdee67-8b73-4e61-8a6a-f63a0e5b6ab6/video
+        name: ADD VIDEO
+        meta:
+          id: req_e91777d59275405e92c1fcd4e90b5457
+          created: 1757554309515
+          modified: 1757555836241
+          isPrivate: false
+          description: ""
+          sortKey: -1757555534197
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_7d20bff8b24a417393a20551207721df
+              name: videoUrl
+              value: https://www.youtube.com/watch?v=abc123
+              description: ""
+              disabled: false
+              type: file
+              fileName: C:\Users\molan\Videos\Screen Recordings\Screen Recording 2024-10-04
+                094943.mp4
+              multiline: true
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/lessons/00161ca6-cf3f-42fa-843b-4a62f7111944
+        name: PATCH
+        meta:
+          id: req_51e5965d172449df9b6c7eab086afd90
+          created: 1757555311729
+          modified: 1757555841009
+          isPrivate: false
+          description: ""
+          sortKey: -1757474159227.5
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name":"treinta"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/lessons/00161ca6-cf3f-42fa-843b-4a62f7111944
+        name: DELETE
+        meta:
+          id: req_f04edc0fe20440d995c08ded380e81d5
+          created: 1757555534172
+          modified: 1757555845891
+          isPrivate: false
+          description: ""
+          sortKey: -1757474159127.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: LIKES
+    meta:
+      id: fld_c76951077cc3489481b421384b42f0d6
+      created: 1757473846022
+      modified: 1757473851434
+      sortKey: -1757473846022
+      description: ""
+    children:
+      - url: localhost:3000/api/likes
+        name: GIVE LIKE
+        meta:
+          id: req_97b9db833b4b416aa392fa0633cb48c1
+          created: 1757556024084
+          modified: 1757558836219
+          isPrivate: false
+          description: ""
+          sortKey: -1757557816085
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"lessonId":"1168a015-ad11-4361-9fac-751dd84d6bc8",
+            	"userId":"10dd741e-5e26-46af-9e80-965035a18c51"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/likes/unlike
+        name: UNLIKE
+        meta:
+          id: req_e15d130a0d444a438fafa415e300b3ab
+          created: 1757556249237
+          modified: 1757558838824
+          isPrivate: false
+          description: ""
+          sortKey: -1757557816035
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"lessonId":"1168a015-ad11-4361-9fac-751dd84d6bc8",
+            	"userId":"10dd741e-5e26-46af-9e80-965035a18c51"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/likes/toggle
+        name: TOGGLE
+        meta:
+          id: req_9b8554bae6b04c209a8667f9dfd132f0
+          created: 1757556327265
+          modified: 1757558829803
+          isPrivate: false
+          description: ""
+          sortKey: -1757557815985
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"lessonId":"1168a015-ad11-4361-9fac-751dd84d6bc8",
+            	"userId":"10dd741e-5e26-46af-9e80-965035a18c51"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/likes/check/10dd741e-5e26-46af-9e80-965035a18c51/1168a015-ad11-4361-9fac-751dd84d6bc8
+        name: CHECK
+        meta:
+          id: req_2f54ddbd88bb49228a793e8748b273e8
+          created: 1757557815885
+          modified: 1757558736671
+          isPrivate: false
+          description: ""
+          sortKey: -1757557815885
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/likes/lesson/1168a015-ad11-4361-9fac-751dd84d6bc8
+        name: GET BY LESSON
+        meta:
+          id: req_5bc9f8d1d2e4465389964d1b255cd19b
+          created: 1757558342190
+          modified: 1757558801994
+          isPrivate: false
+          description: ""
+          sortKey: -1757556919984.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/likes/user/10dd741e-5e26-46af-9e80-965035a18c51
+        name: GET BY USER
+        meta:
+          id: req_322335dd3eeb4b6999802b40c8f5fe5d
+          created: 1757558387708
+          modified: 1757558763679
+          isPrivate: false
+          description: ""
+          sortKey: -1757557367934.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/likes/count/1168a015-ad11-4361-9fac-751dd84d6bc8
+        name: COUNT
+        meta:
+          id: req_9ade15dc768448508399fb6f17ff1f9f
+          created: 1757558417766
+          modified: 1757558752946
+          isPrivate: false
+          description: ""
+          sortKey: -1757557591909.875
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: FILES
+    meta:
+      id: fld_1dad50f72d204258a6569b8f3967b2c6
+      created: 1757473856575
+      modified: 1757473856575
+      sortKey: -1757473856575
+      description: ""
+    children:
+      - url: localhost:3000/api/files/lesson/1168a015-ad11-4361-9fac-751dd84d6bc8
+        name: ADD FILE
+        meta:
+          id: req_ec1da0b1e90f48b689a9545e118311e5
+          created: 1757558942974
+          modified: 1757560054125
+          isPrivate: false
+          description: ""
+          sortKey: -1757558942974
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_4e9d496a980d4e4c811901e1b75c0e50
+              name: file
+              value: ""
+              description: ""
+              disabled: false
+              type: file
+              fileName: C:\Users\molan\Downloads\estructura_proyecto.docx
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/files/lesson/1168a015-ad11-4361-9fac-751dd84d6bc8
+        name: GET BY LESSON
+        meta:
+          id: req_994befef2b1442839d4e63e94e76ee57
+          created: 1757559186341
+          modified: 1757560047930
+          isPrivate: false
+          description: ""
+          sortKey: -1757558379529.5
+        method: GET
+        body:
+          mimeType: multipart/form-data
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/files/930607f5-ce98-4444-908f-a1553a59bfbe
+        name: GET BY ID
+        meta:
+          id: req_a80dc05858c24c4892de9b7b0be2adb1
+          created: 1757559232572
+          modified: 1757560038422
+          isPrivate: false
+          description: ""
+          sortKey: -1757558097807.25
+        method: GET
+        body:
+          mimeType: multipart/form-data
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/api/files/8a7f23f1-a176-4cef-8e49-85a56a5c2255/download
+        name: DOWNLOAD
+        meta:
+          id: req_303d608f5c0f498b99e65b8b47c6a89b
+          created: 1757559253017
+          modified: 1757560027938
+          isPrivate: false
+          description: ""
+          sortKey: -1757557956946.125
+        method: GET
+        body:
+          mimeType: multipart/form-data
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_fe0195224d904cbb5542b91ae9f6405311231e11
+    created: 1756948204236
+    modified: 1756948204236
+environments:
+  name: Base Environment
+  meta:
+    id: env_fe0195224d904cbb5542b91ae9f6405311231e11
+    created: 1756948204175
+    modified: 1756948204175
+    isPrivate: false
