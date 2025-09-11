@@ -32,7 +32,7 @@ module.exports = {
       },
       video_url: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         comment: "URL del video de la leccion",
       },
       created_at: {

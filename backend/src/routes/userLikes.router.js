@@ -15,7 +15,7 @@ const router = express.Router();
 
 // Dar like a una lección
 router.post(
-  "/like",
+  "/",
   validateHandler(userLikesSchema.likeLesson, "body"),
   userLikesController.likeLesson
 );

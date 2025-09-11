@@ -3,85 +3,84 @@ const { sequelize } = require("../db/models");
 const { getUploadedFileURL } = require("../middlewares/fileHandler");
 
 class CourseService {
-  constructor(courseRepository) {
-    this.courseRepository = courseRepository;
-  }
-
-  async getCourses() {
-    return await this.courseRepository.findAll();
-  }
-
-  async getCourseById(id) {
-    const course = await this.courseRepository.findById(id);
-    if (!course) throw boom.notFound("Course not found");
-    return course;
-  }
-
-  async getCoursesByCategory(category) {
-    const courses = await this.courseRepository.getByCategory(category);
-    if (courses.length === 0 || !courses)
-      throw boom.notFound("Courses not found");
-    return courses;
-  }
-
-  async createCourse(data, file) {
-    const transaction = await sequelize.transaction();
-    try {
-      const newCourse = await this.courseRepository.create(data, {
-        transaction,
-      });
-      if (file) {
-        const imageUrl = getUploadedFileURL("courses", file.filename);
-        await newCourse.update({ image: imageUrl }, { transaction });
-      }
-
-      await transaction.commit();
-      return newCourse;
-    } catch (error) {
-      await transaction.rollback();
-      throw error;
+    constructor(courseRepository) {
+        this.courseRepository = courseRepository;
     }
-  }
 
-  async addCourseImage(id, file) {
-    try {
-      const course = await this.courseRepository.findById(id);
-      if (!course) throw boom.notFound("Course not found");
-
-      const imageUrl = getUploadedFileURL("course", file.filename);
-
-      const updatedCourse = await course.update({ image: imageUrl });
-
-      return {
-        message: "Image uploaded successfully",
-        course: updatedCourse,
-      };
-    } catch (error) {
-      throw error;
+    async getCourses() {
+        return await this.courseRepository.findAll();
     }
-  }
 
-  async updateCourse(id, data) {
-    const oldCourse = await this.getCourseById(id);
-    const before = {};
-    for (const key of Object.keys(data)) {
-      before[key] = oldCourse[key];
+    async getCourseById(id) {
+        const course = await this.courseRepository.findById(id);
+        if (!course) throw boom.notFound("Course not found");
+        return course;
     }
-    const newCourse = await oldCourse.update(data);
-    const after = {};
-    for (const key of Object.keys(data)) {
-      after[key] = newCourse[key];
-    }
-    return {
-      before,
-      after,
-    };
-  }
 
-  async deleteCourse(id) {
-    const course = await this.getCourseById(id);
-    return await course.destroy(id);
-  }
+    async getCoursesByCategory(category) {
+        const courses = await this.courseRepository.getByCategory(category);
+        if (courses.length === 0 || !courses) throw boom.notFound("Courses not found");
+        return courses;
+    }
+
+    async createCourse(data, file) {
+        const transaction = await sequelize.transaction();
+        try {
+            const newCourse = await this.courseRepository.create(data, {
+                transaction,
+            });
+            if (file) {
+                const imageUrl = getUploadedFileURL("courses", file.filename);
+                await newCourse.update({ image: imageUrl }, { transaction });
+            }
+
+            await transaction.commit();
+            return newCourse;
+        } catch (error) {
+            await transaction.rollback();
+            throw error;
+        }
+    }
+
+    async addCourseImage(id, file) {
+        try {
+            const course = await this.courseRepository.findById(id);
+            if (!course) throw boom.notFound("Course not found");
+
+            const imageUrl = getUploadedFileURL("course", file.filename);
+
+            const updatedCourse = await course.update({ image: imageUrl });
+
+            return {
+                message: "Image uploaded successfully",
+                course: updatedCourse,
+            };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateCourse(id, data) {
+        const oldCourse = await this.getCourseById(id);
+        const before = {};
+        for (const key of Object.keys(data)) {
+            before[key] = oldCourse[key];
+        }
+        const newCourse = await oldCourse.update(data);
+        const after = {};
+        for (const key of Object.keys(data)) {
+            after[key] = newCourse[key];
+        }
+        return {
+            before,
+            after,
+        };
+    }
+
+    async deleteCourse(id) {
+        const course = await this.getCourseById(id);
+        return await course.destroy(id);
+    }
 }
 
 module.exports = CourseService;

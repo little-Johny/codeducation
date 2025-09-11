@@ -54,7 +54,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "UserLikes",
       tableName: "user_likes",
       timestamps: true,
-      paranoid: true,
       deletedAt: "deleted_at",
       createdAt: "created_at",
       updatedAt: "updated_at",

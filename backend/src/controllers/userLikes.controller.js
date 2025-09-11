@@ -7,6 +7,7 @@ class UserLikesController {
     this.getLessonLikes = this.getLessonLikes.bind(this);
     this.checkUserLike = this.checkUserLike.bind(this);
     this.getLikesCount = this.getLikesCount.bind(this);
+    this.toggleLike = this.toggleLike.bind(this);
   }
 
   async likeLesson(req, res, next) {
