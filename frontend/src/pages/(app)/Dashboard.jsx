@@ -2,84 +2,112 @@ import React from "react";
 
 export default function Dashboard() {
     return (
-        <div>
-            <div className="navbar bg-base-100 shadow-sm">
-                <div className="navbar-start">
-                    <div className="dropdown">
-                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                {" "}
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M4 6h16M4 12h16M4 18h7"
-                                />{" "}
-                            </svg>
+        <div className="min-h-full w-full bg-base-300 p-4">
+            <div className="flex flex-col flex-1 max-w-6xl h-full mx-auto bg-base-100 rounded-lg shadow-xl p-4 md:p-6">
+                {/* Encabezado */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                    <div>
+                        <h1 className="text-2xl font-bold">Dashboard</h1>
+                        <p className="text-sm text-base-content/70">
+                            Resumen general de tu actividad
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <button className="btn btn-outline">Exportar</button>
+                        <button className="btn btn-primary">Nueva lección</button>
+                    </div>
+                </div>
+
+                {/* Tarjetas de estadísticas */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div className="stats shadow bg-base-100">
+                        <div className="stat">
+                            <div className="stat-title">Cursos</div>
+                            <div className="stat-value text-primary">12</div>
+                            <div className="stat-desc">+2 este mes</div>
                         </div>
-                        <ul
-                            tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-                        >
+                    </div>
+                    <div className="stats shadow bg-base-100">
+                        <div className="stat">
+                            <div className="stat-title">Lecciones</div>
+                            <div className="stat-value text-secondary">48</div>
+                            <div className="stat-desc">+6 esta semana</div>
+                        </div>
+                    </div>
+                    <div className="stats shadow bg-base-100">
+                        <div className="stat">
+                            <div className="stat-title">Progreso</div>
+                            <div className="stat-value text-accent">72%</div>
+                            <div className="stat-desc">3 cursos en progreso</div>
+                        </div>
+                    </div>
+                    <div className="stats shadow bg-base-100">
+                        <div className="stat">
+                            <div className="stat-title">Favoritos</div>
+                            <div className="stat-value">9</div>
+                            <div className="stat-desc">2 nuevos</div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Contenido principal dividido */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {/* Actividad reciente */}
+                    <div className="col-span-2 bg-base-100 rounded-lg border border-base-200">
+                        <div className="p-4 border-b border-base-200 flex items-center justify-between">
+                            <h2 className="font-semibold">Actividad reciente</h2>
+                            <button className="btn btn-xs btn-outline">Ver todo</button>
+                        </div>
+                        <ul className="menu p-2">
                             <li>
-                                <a>Homepage</a>
+                                <a className="hover:bg-base-200">
+                                    <span className="badge badge-primary badge-xs mr-2"></span>
+                                    Terminaste "React Básico"
+                                    <span className="ml-auto text-xs text-base-content/70">
+                                        hace 2h
+                                    </span>
+                                </a>
                             </li>
                             <li>
-                                <a>Portfolio</a>
+                                <a className="hover:bg-base-200">
+                                    <span className="badge badge-secondary badge-xs mr-2"></span>
+                                    Nueva lección "Hooks Avanzados"
+                                    <span className="ml-auto text-xs text-base-content/70">
+                                        ayer
+                                    </span>
+                                </a>
                             </li>
                             <li>
-                                <a>About</a>
+                                <a className="hover:bg-base-200">
+                                    <span className="badge badge-accent badge-xs mr-2"></span>
+                                    Subiste "Buenas prácticas Node.js"
+                                    <span className="ml-auto text-xs text-base-content/70">
+                                        hace 3d
+                                    </span>
+                                </a>
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div className="navbar-center">
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
-                </div>
-                <div className="navbar-end">
-                    <button className="btn btn-ghost btn-circle">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            {" "}
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />{" "}
-                        </svg>
-                    </button>
-                    <button className="btn btn-ghost btn-circle">
-                        <div className="indicator">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                {" "}
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                                />{" "}
-                            </svg>
-                            <span className="badge badge-xs badge-primary indicator-item"></span>
+
+                    {/* Sugerencias / Próximos pasos */}
+                    <div className="bg-base-100 rounded-lg border border-base-200">
+                        <div className="p-4 border-b border-base-200">
+                            <h2 className="font-semibold">Próximos pasos</h2>
                         </div>
-                    </button>
+                        <div className="p-4 space-y-3">
+                            <div className="alert alert-info">
+                                <span>Continúa con "Patrones de Diseño" (35% completado).</span>
+                            </div>
+                            <div className="alert alert-success">
+                                <span>¡Felicidades! Completaste 2 cursos esta semana.</span>
+                            </div>
+                            <div className="alert">
+                                <span>
+                                    Configura tus notificaciones para no perderte novedades.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
