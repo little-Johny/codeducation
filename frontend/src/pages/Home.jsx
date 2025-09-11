@@ -1,18 +1,35 @@
 import Logo from "../assets/plataforma software.png";
-import ImgPort from "../assets/DSC04537 (1) (1).JPG";
+import Img1 from "../assets/DSC04537 (1) (1).JPG";
+import Img2 from "../assets/1e343d_8eb12c9fa1074244b9eb4714e71b1467~mv2.png";
+import Img3 from "../assets/1e343d_855a517c271c4fd984fa9a7c7e14c237~mv2.jpg";
+
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+    const [currentSlide, setCurrentSlide] = useState(0);
     const navigate = useNavigate();
+    const slides = [Img1, Img2, Img3];
 
     const handleLogin = (e) => {
         e.preventDefault;
         navigate("/dashboard");
     };
 
+    useEffect(() => {
+        const handleKeyboard = (e) => {
+            if (e.key === "ArrowRight") setCurrentSlide((prev) => (prev + 1) % slides.length);
+
+            if (e.key === "ArrowLeft")
+                setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+        };
+        window.addEventListener("keydown", handleKeyboard);
+        return () => window.removeEventListener("keydown", handleKeyboard);
+    }, [slides.length]);
+
     return (
         <div className="flex flex-col-reverse sm:flex-row h-screen sm:h-full  sm:m-0 shadow-2xl/30  rounded-lg overflow-hidden bg-base-300">
-            <div className="flex flex-col basis-4/5 sm:basis-1/2 h-full w-full max-w-4xl overflow-hidden p-2">
+            <div className="flex flex-col basis-4/5 sm:basis-1/2 h-full w-full max-w-4xl overflow-hidden p-2 bg-base-100 rounded-lg shadow-xl">
                 {/* Logo */}
                 <figure className="p-2">
                     <img
@@ -29,7 +46,10 @@ export default function Home() {
                         <h2 className="text-2xl font-bold">Bienvenido</h2>
                     </div>
 
-                    <form className="flex flex-col flex-grow gap-4 w-full max-w-sm mx-auto" onSubmit={handleLogin}>
+                    <form
+                        className="flex flex-col flex-grow gap-4 w-full max-w-sm mx-auto"
+                        onSubmit={handleLogin}
+                    >
                         {/* Usuario */}
                         <input
                             type="text"
@@ -46,17 +66,14 @@ export default function Home() {
                             />
                             <a
                                 href="#"
-                                className="text-sm text-orange-500 hover:underline self-end mt-6"
+                                className="text-sm text-primary hover:underline self-end mt-6"
                             >
                                 ¿Olvidaste tu contraseña?
                             </a>
                         </div>
 
                         {/* Botón continuar */}
-                        <button
-                            type="submit"
-                            className="btn bg-orange-500 hover:bg-orange-600 text-white w-full"
-                        >
+                        <button type="submit" className="btn btn-primary w-full">
                             Continuar
                         </button>
 
@@ -105,10 +122,24 @@ export default function Home() {
             </div>
 
             {/* Derecha con imagen */}
-            <div className="basis-1/5 sm:basis-1/2 relative bg-orange-300 h-full w-full flex items-center justify-center text-white">
-                <figure className="h-full w-full">
-                    <img src={ImgPort} alt="Portada" className="h-full w-full object-cover" />
-                </figure>
+            <div className="basis-1/5 sm:basis-1/2 relative bg-base-100 h-full w-full flex items-center justify-center text-base-content overflow-hidden">
+                <img
+                    src={slides[currentSlide]}
+                    alt={`Slide ${currentSlide + 1}`}
+                    className="h-full w-full object-cover transition-all duration-700"
+                />
+
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                    {slides.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentSlide(index)}
+                            className={`w-3 h-3 rounded-full ${
+                                currentSlide === index ? "bg-white" : "bg-white/50"
+                            }`}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );
