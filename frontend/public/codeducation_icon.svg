@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="titleDesc">
+  <title id="titleDesc">codeducation icon</title>
+  <!-- Mortarboard (birrete) -->
+  <path d="M4 24 L32 8 L60 24 L44 32 L44 44 C44 46.209 42.209 48 40 48 L24 48 C21.791 48 20 46.209 20 44 L20 32 Z"
+        fill="#1976D2" stroke="none" />
+  <!-- Base (parte inferior del birrete / cuerpo) -->
+  <rect x="20" y="32" width="24" height="14" rx="4" ry="4" fill="#1976D2" stroke="none" />
+  <!-- Play triangle -->
+  <polygon points="28,26 44,32 28,38" fill="#FFFFFF" />
+  <!-- Tassel line -->
+  <path d="M44 27.5 L50 30.5" stroke="#1976D2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Tassel bob -->
+  <rect x="48.8" y="30.5" width="5" height="9" rx="2.5" ry="2.5" fill="#1976D2" />
+</svg>
