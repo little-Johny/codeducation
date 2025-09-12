@@ -27,6 +27,14 @@ export default function Home() {
         return () => window.removeEventListener("keydown", handleKeyboard);
     }, [slides.length]);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % slides.length);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [slides.length]);
+
     return (
         <div className="flex flex-col-reverse sm:flex-row h-screen sm:h-full  sm:m-0 shadow-2xl/30  rounded-lg overflow-hidden bg-base-300">
             <div className="flex flex-col basis-4/5 sm:basis-1/2 h-full w-full max-w-4xl overflow-hidden p-2 bg-base-100 rounded-lg shadow-xl">
@@ -111,6 +119,10 @@ export default function Home() {
                             </svg>
                             Continuar con Google
                         </button>
+                        <span className="text-sm text-base-content self-end mt-6">
+                            No tienes una cuenta?
+                            <a className="hover:underline text-primary">Registrate</a>
+                        </span>
                     </form>
                     <div className=" flex flex-col items-center justify-center">
                         <div className="text-xs text-center text-base-content pt-4 pb-4 lg:pb-0">
