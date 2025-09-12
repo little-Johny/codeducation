@@ -1,4 +1,4 @@
-import React from "react";
+import ThemeToggle from "../../components/ThemeToggle";
 
 export default function Dashboard() {
     return (
@@ -11,6 +11,7 @@ export default function Dashboard() {
                         <p className="text-sm text-base-content/70">
                             Resumen general de tu actividad
                         </p>
+                        <ThemeToggle />
                     </div>
                     <div className="flex items-center gap-2">
                         <button className="btn btn-outline">Exportar</button>
