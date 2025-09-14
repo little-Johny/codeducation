@@ -3,7 +3,7 @@ const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
 const passport = require("passport");
-require("dotenv").config();
+require("dotenv").config({ path: path.join(__dirname, '../../.env') });
 
 const {
   logErrors,
