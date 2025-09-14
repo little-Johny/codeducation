@@ -10,6 +10,7 @@ import {
     ChevronLeft,
     ChevronRight,
 } from "lucide-react";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function AppLayout() {
     const [leftCollapsed, setLeftCollapsed] = useState(false);
@@ -52,26 +53,29 @@ export default function AppLayout() {
                     }`}
                 >
                     {!leftCollapsed && <h2 className="font-bold text-lg">SIIP</h2>}
-                    <button
-                        onClick={() => {
-                            setLeftCollapsed(!leftCollapsed);
-                            setOptionOpen({
-                                ...optionsOpen,
-                                inicio: false,
-                                lecciones: false,
-                                estadisticas: false,
-                                configuraciones: false,
-                            });
-                        }}
-                        className={getCollapseButtonClasses()}
-                        title={leftCollapsed ? "Expandir menú" : "Colapsar menú"}
-                    >
-                        {leftCollapsed ? (
-                            <PanelRightOpen className="w-5 h-5" />
-                        ) : (
-                            <PanelRightClose className="w-5 h-5" />
-                        )}
-                    </button>
+                    <div className="flex items-center gap-2">
+                        {!leftCollapsed && <ThemeToggle />}
+                        <button
+                            onClick={() => {
+                                setLeftCollapsed(!leftCollapsed);
+                                setOptionOpen({
+                                    ...optionsOpen,
+                                    inicio: false,
+                                    lecciones: false,
+                                    estadisticas: false,
+                                    configuraciones: false,
+                                });
+                            }}
+                            className={getCollapseButtonClasses()}
+                            title={leftCollapsed ? "Expandir menú" : "Colapsar menú"}
+                        >
+                            {leftCollapsed ? (
+                                <PanelRightOpen className="w-5 h-5" />
+                            ) : (
+                                <PanelRightClose className="w-5 h-5" />
+                            )}
+                        </button>
+                    </div>
                 </div>
                 <ul
                     className={`menu flex-1 flex flex-col space-y-1 w-full ${

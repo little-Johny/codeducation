@@ -1,17 +1,16 @@
-
-import { Moon, Sun } from "lucide-react"; 
-import useTheme from "../hooks/useTheme";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "../hooks/useThemeContext";
 
 export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+    const { theme, toggleTheme } = useTheme();
 
-  return (
-    <button
-      onClick={toggleTheme}
-      className="btn btn-ghost rounded-full p-2"
-      aria-label="Cambiar tema"
-    >
-      {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-    </button>
-  );
+    return (
+        <button
+            onClick={toggleTheme}
+            className="btn btn-ghost rounded-full p-2"
+            aria-label="Cambiar tema"
+        >
+            {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
+    );
 }
