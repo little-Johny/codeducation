@@ -1,10 +1,36 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
     const navigate = useNavigate();
-    const handleLogin = (e) => {
+    const { login, loading } = useAuth();
+    const [formData, setFormData] = useState({ email: "", password: "" });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleLogin = async (e) => {
         e.preventDefault();
-        navigate("/dashboard");
+        if (!formData.email || !formData.password) {
+            toast.error("Por favor, completa todos los campos");
+            return;
+        }
+
+        try {
+            const result = await login(formData.email, formData.password);
+            if (result.success) {
+                toast.success("Inicio de sesión exitoso");
+                navigate("/dashboard");
+            } else {
+                toast.error(result.error || "Error al iniciar sesión");
+            }
+        } catch (err) {
+            console.error("Login error:", err);
+            toast.error("Error al conectar con el servidor");
+        }
     };
     return (
         <div className="flex flex-col gap-4 p-6 flex-grow justify-center w-full  overflow-y-auto md:overflow-hidden">
@@ -18,14 +44,26 @@ export default function Login() {
                 onSubmit={handleLogin}
             >
                 {/* Usuario */}
-                <input type="text" placeholder="Usuario" className="input input-bordered w-full" />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Correo electrónico"
+                    className="input input-bordered w-full"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
 
                 {/* Contraseña + link recuperación */}
                 <div className="flex flex-col gap-1 ">
                     <input
                         type="password"
+                        name="password"
                         placeholder="Contraseña"
                         className="input input-bordered w-full"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
                     />
                     <a href="#" className="text-sm text-primary hover:underline self-end mt-6">
                         ¿Olvidaste tu contraseña?
@@ -33,8 +71,8 @@ export default function Login() {
                 </div>
 
                 {/* Botón continuar */}
-                <button type="submit" className="btn btn-primary w-full">
-                    Continuar
+                <button type="submit" className="btn btn-primary w-full" disabled={loading}>
+                    {loading ? "Iniciando sesión..." : "Continuar"}
                 </button>
 
                 {/* Separador */}
