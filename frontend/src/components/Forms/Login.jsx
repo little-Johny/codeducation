@@ -1,36 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
+import { useApi } from "../../hooks/useQuery";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Login() {
     const navigate = useNavigate();
-    const { login, loading } = useAuth();
-    const [formData, setFormData] = useState({ email: "", password: "" });
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    const { login } = useAuth();
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!formData.email || !formData.password) {
-            toast.error("Por favor, completa todos los campos");
-            return;
+        setLoading(true);
+
+        const data = Object.fromEntries(new FormData(e.target));
+
+        const response = await useApi("post", "/auth/login", data, true); // true para notificaciones
+
+        if (response.success) {
+            login(response.token); // Guardar token en contexto
+            navigate("/dashboard");
+        } else {
+            toast.error(response.message || "Error al iniciar sesión");
         }
 
-        try {
-            const result = await login(formData.email, formData.password);
-            if (result.success) {
-                toast.success("Inicio de sesión exitoso");
-                navigate("/dashboard");
-            } else {
-                toast.error(result.error || "Error al iniciar sesión");
-            }
-        } catch (err) {
-            console.error("Login error:", err);
-            toast.error("Error al conectar con el servidor");
-        }
+        setLoading(false);
     };
     return (
         <div className="flex flex-col gap-4 p-6 flex-grow justify-center w-full  overflow-y-auto md:overflow-hidden">
@@ -49,8 +43,6 @@ export default function Login() {
                     name="email"
                     placeholder="Correo electrónico"
                     className="input input-bordered w-full"
-                    value={formData.email}
-                    onChange={handleChange}
                     required
                 />
 
@@ -61,8 +53,6 @@ export default function Login() {
                         name="password"
                         placeholder="Contraseña"
                         className="input input-bordered w-full"
-                        value={formData.password}
-                        onChange={handleChange}
                         required
                     />
                     <a href="#" className="text-sm text-primary hover:underline self-end mt-6">

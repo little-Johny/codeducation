@@ -7,25 +7,28 @@ import Dashboard from "./pages/(app)/Dashboard";
 import Register from "./components/Forms/Register";
 import Login from "./components/Forms/Login";
 import { ThemeProvider } from "./context/ThemeContext";
+import { AuthProvider } from "./context/AuthContext";
 
 export default function App() {
     return (
         <ThemeProvider>
             <BrowserRouter>
-                <Routes>
-                    <Route element={<GuestLayout />}>
-                        <Route element={<Home />}>
-                            <Route path="/" element={<Login />} />
+                <AuthProvider>
+                    <Routes>
+                        <Route element={<GuestLayout />}>
+                            <Route path="/" element={<Home />}>
+                                <Route index element={<Login />} />
+                            </Route>
+                            <Route path="/register" element={<Home />}>
+                                <Route index element={<Register />} />
+                            </Route>
                         </Route>
-                        <Route element={<Home />}>
-                            <Route path="/register" element={<Register />} />
+                        <Route element={<AppLayout />}>
+                            <Route path="/dashboard" element={<Dashboard />} />
                         </Route>
-                    </Route>
-                    <Route element={<AppLayout />}>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                    </Route>
-                </Routes>
-                <Toaster position="top-right" />
+                    </Routes>
+                    <Toaster position="top-right" />
+                </AuthProvider>
             </BrowserRouter>
         </ThemeProvider>
     );
