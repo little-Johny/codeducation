@@ -7,13 +7,13 @@ Este es un proyecto de capacitación para Senasoft, desarrollado en código abie
 - Node.js (versión 18 o superior)
 - npm o yarn
 - Docker y Docker Compose (opcional, para ejecutar la base de datos)
-- PostgreSQL (si no usas Docker)
+
 
 ## Instalación
 
 1. Clona el repositorio:
    ```bash
-   git clone <url-del-repositorio>
+   git clone https://github.com/little-Johny/codeducation.git
    cd codeducation
    ```
 
@@ -191,14 +191,3 @@ Este proyecto sigue una **arquitectura en capas (Layered Architecture / N-tier)*
 
 La documentación de la API está disponible en el archivo `docs/Insomnia_2025-09-10codeducation.yaml` para importar en Insomnia o herramientas similares como Postman.
 
-## Licencia
-
-Este proyecto está bajo la licencia ISC. Ver el archivo `LICENSE` para más detalles.
-
-## Contribuir
-
-1. Haz un fork del proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Haz commit de tus cambios (`git commit -am 'Agrega nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request

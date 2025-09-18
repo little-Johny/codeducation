@@ -1,118 +1,124 @@
 'use strict';
 
+const { UserLikes, User, Lessons } = require('../models');
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     const userLikes = [
       // Carlos López (estudiante) - likes a lecciones
       {
         id: '550e8400-e29b-41d4-a716-446655440061',
-        userId: '550e8400-e29b-41d4-a716-446655440004',
-        lessonId: '550e8400-e29b-41d4-a716-446655440021',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'carlos.lopez@codeducation.com',
+        lessonName: 'Introducción a JavaScript'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440062',
-        userId: '550e8400-e29b-41d4-a716-446655440004',
-        lessonId: '550e8400-e29b-41d4-a716-446655440022',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'carlos.lopez@codeducation.com',
+        lessonName: 'Funciones y Scope'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440063',
-        userId: '550e8400-e29b-41d4-a716-446655440004',
-        lessonId: '550e8400-e29b-41d4-a716-446655440024',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'carlos.lopez@codeducation.com',
+        lessonName: 'Introducción a React'
       },
 
       // Ana Martínez (estudiante) - likes a lecciones
       {
         id: '550e8400-e29b-41d4-a716-446655440064',
-        userId: '550e8400-e29b-41d4-a716-446655440005',
-        lessonId: '550e8400-e29b-41d4-a716-446655440027',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'ana.martinez@codeducation.com',
+        lessonName: 'Introducción a Node.js'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440065',
-        userId: '550e8400-e29b-41d4-a716-446655440005',
-        lessonId: '550e8400-e29b-41d4-a716-446655440028',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'ana.martinez@codeducation.com',
+        lessonName: 'Express.js Básico'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440066',
-        userId: '550e8400-e29b-41d4-a716-446655440005',
-        lessonId: '550e8400-e29b-41d4-a716-446655440029',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'ana.martinez@codeducation.com',
+        lessonName: 'Sintaxis de Python'
       },
 
       // Pedro Rodríguez (estudiante) - likes a lecciones
       {
         id: '550e8400-e29b-41d4-a716-446655440067',
-        userId: '550e8400-e29b-41d4-a716-446655440006',
-        lessonId: '550e8400-e29b-41d4-a716-446655440021',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'pedro.rodriguez@codeducation.com',
+        lessonName: 'Introducción a JavaScript'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440068',
-        userId: '550e8400-e29b-41d4-a716-446655440006',
-        lessonId: '550e8400-e29b-41d4-a716-446655440023',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'pedro.rodriguez@codeducation.com',
+        lessonName: 'Arrays y Objetos'
       },
 
       // Laura Fernández (estudiante) - likes a lecciones
       {
         id: '550e8400-e29b-41d4-a716-446655440069',
-        userId: '550e8400-e29b-41d4-a716-446655440008',
-        lessonId: '550e8400-e29b-41d4-a716-446655440024',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'laura.fernandez@codeducation.com',
+        lessonName: 'Introducción a React'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440070',
-        userId: '550e8400-e29b-41d4-a716-446655440008',
-        lessonId: '550e8400-e29b-41d4-a716-446655440025',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'laura.fernandez@codeducation.com',
+        lessonName: 'Hooks en React'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440071',
-        userId: '550e8400-e29b-41d4-a716-446655440008',
-        lessonId: '550e8400-e29b-41d4-a716-446655440026',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'laura.fernandez@codeducation.com',
+        lessonName: 'Routing con React Router'
       },
 
       // Miguel Torres (estudiante) - likes a lecciones
       {
         id: '550e8400-e29b-41d4-a716-446655440072',
-        userId: '550e8400-e29b-41d4-a716-446655440009',
-        lessonId: '550e8400-e29b-41d4-a716-446655440027',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'miguel.torres@codeducation.com',
+        lessonName: 'Introducción a Node.js'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440073',
-        userId: '550e8400-e29b-41d4-a716-446655440009',
-        lessonId: '550e8400-e29b-41d4-a716-446655440029',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'miguel.torres@codeducation.com',
+        lessonName: 'Sintaxis de Python'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440074',
-        userId: '550e8400-e29b-41d4-a716-446655440009',
-        lessonId: '550e8400-e29b-41d4-a716-446655440030',
-        created_at: new Date(),
-        updated_at: new Date()
+        userEmail: 'miguel.torres@codeducation.com',
+        lessonName: 'Funciones y Módulos'
       }
     ];
 
-    await queryInterface.bulkInsert('user_likes', userLikes, {});
+    for (const like of userLikes) {
+      // Buscar el usuario por email
+      const user = await User.findOne({ where: { email: like.userEmail } });
+      if (!user) {
+        console.log(`Usuario con email ${like.userEmail} no encontrado. Saltando like.`);
+        continue;
+      }
+
+      // Buscar la lección por nombre
+      const lesson = await Lessons.findOne({ where: { name: like.lessonName } });
+      if (!lesson) {
+        console.log(`Lección "${like.lessonName}" no encontrada. Saltando like.`);
+        continue;
+      }
+
+      const likeData = {
+        ...like,
+        userId: user.id,
+        lessonId: lesson.id
+      };
+      delete likeData.userEmail;
+      delete likeData.lessonName;
+
+      const [likeInstance, created] = await UserLikes.findOrCreate({
+        where: { userId: user.id, lessonId: lesson.id },
+        defaults: likeData
+      });
+      if (created) {
+        console.log(`Like creado: ${user.email} -> ${lesson.name}`);
+      } else {
+        console.log(`Like ya existe: ${user.email} -> ${lesson.name}`);
+      }
+    }
   },
 
   async down(queryInterface, Sequelize) {
