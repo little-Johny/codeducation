@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useApi } from "../../hooks/useQuery";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -18,7 +18,7 @@ export default function Login() {
         const response = await useApi("post", "/auth/login", data, true); // true para notificaciones
 
         if (response.success) {
-            login(response.token); // Guardar token en contexto
+            login(response.data.token, response.data.user); // Guardar token y datos del usuario en contexto
             navigate("/dashboard");
         } else {
             toast.error(response.message || "Error al iniciar sesión");

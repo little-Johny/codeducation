@@ -5,7 +5,6 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
   timeout: 20000,
   headers: {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
 });
@@ -16,13 +15,38 @@ apiClient.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // Log para debugging de archivos
+  console.log('[DEBUG] Request config:', {
+    url: config.url,
+    method: config.method,
+    headers: config.headers,
+    data: config.data instanceof FormData ? 'FormData object' : config.data
+  });
+
   return config;
 });
 
 // Interceptor para manejar errores globales
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Log para debugging de respuestas
+    console.log('[DEBUG] Response:', {
+      status: response.status,
+      url: response.config.url,
+      data: response.data
+    });
+    return response;
+  },
   (error) => {
+    // Log para debugging de errores
+    console.log('[DEBUG] Response error:', {
+      status: error.response?.status,
+      url: error.config?.url,
+      data: error.response?.data,
+      message: error.message
+    });
+
     // Manejo de errores comunes
     if (error.response?.status === 401) {
       // Token expirado, redirigir a login

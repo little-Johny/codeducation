@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import apiClient from "../lib/apiClient";
 
 async function fetch(method, url, body) {
@@ -33,7 +33,7 @@ export function useGet(url = null, notify = false) {
         (async () => {
             let id;
 
-            if (notify) id = toast.loading("Cargando...");
+            if (notify) id = toast("Cargando...", { isLoading: true });
 
             const response = await fetch("get", url);
             if (response) setLoading(false);
@@ -80,15 +80,15 @@ export function useGet(url = null, notify = false) {
 
 export async function useApi(
     method = null,
-    body = null,
     url = null,
+    body = null,
     notify = null,
     headers = null
 ) {
     if (!method) return;
     let id;
 
-    if (notify) id = toast.loading("Cargando...");
+    if (notify) id = toast("Cargando...", { isLoading: true });
 
     const response = await fetch(method, url, body, headers);
 

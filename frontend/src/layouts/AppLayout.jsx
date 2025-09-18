@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import {
     House,
     BookOpen,
@@ -11,6 +11,7 @@ import {
     ChevronRight,
 } from "lucide-react";
 import ThemeToggle from "../components/ThemeToggle";
+import { useAuth } from "../hooks/useAuth";
 
 export default function AppLayout() {
     const [leftCollapsed, setLeftCollapsed] = useState(false);
@@ -21,6 +22,8 @@ export default function AppLayout() {
         estadisticas: false,
         configuraciones: false,
     });
+
+    const { user, state: sessionState } = useAuth();
 
     // Helper function para clases de transición de texto
     const getTextTransitionClasses = (collapsed) =>
@@ -121,10 +124,10 @@ export default function AppLayout() {
                         )}
                     </li>
                     <li>
-                        <a className={getMenuItemClasses(leftCollapsed)} data-tip="Cursos">
+                        <Link to="/courses" className={getMenuItemClasses(leftCollapsed)} data-tip="Cursos">
                             <BookOpen className="w-5 h-5 flex-shrink-0" />
                             <span className={getTextTransitionClasses(leftCollapsed)}>Cursos</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <a className={getMenuItemClasses(leftCollapsed)} data-tip="Estadísticas">
@@ -188,13 +191,13 @@ export default function AppLayout() {
                         >
                             <div className="avatar avatar-placeholder">
                                 <div className="bg-neutral-content text-neutral-content rounded-full w-13">
-                                    <span className="text-neutral">JA</span>
+                                    <span className="text-neutral">{}</span>
                                 </div>
                             </div>
                             <div className="grow flex items-center w-full w-min-0">
                                 <div className="grow min-w-0 flex flex-col">
-                                    <span className="text-sm font-bold"> Usuario</span>
-                                    <span className="text-xs text-gray-500">Usuario</span>
+                                    <span className="text-sm font-bold"> {user?.name || "Usuario"}</span>
+                                    <span className="text-xs text-gray-500">{user?.role || "usuario"}</span>
                                 </div>
                             </div>
                         </div>
