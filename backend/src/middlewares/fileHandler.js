@@ -25,22 +25,25 @@ const storage = (dir) =>
 
 // Crear Directorio si no existe
 
-const allowedTypes = [
-  "image/jpeg",
-  "image/png",
-  "image/gif",
-  "image/webp",
-  "video/mp4",
-  "video/quicktime",
-  "video/x-msvideo",
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "application/vnd.ms-excel",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-];
+const allowedTypes = process.env.ALLOWED_FILE_TYPES
+  ? process.env.ALLOWED_FILE_TYPES.split(',')
+  : [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/gif",
+      "image/webp",
+      "video/mp4",
+      "video/quicktime",
+      "video/x-msvideo",
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ];
 
-const FILE_SIZE_LIMIT = 5 * 1024 * 1024; // 5MB
+const FILE_SIZE_LIMIT = parseInt(process.env.FILE_SIZE_LIMIT) || (5 * 1024 * 1024); // Default 5MB
 
 const fileFilter = (req, file, cb) => {
   if (!allowedTypes.includes(file.mimetype))
@@ -60,7 +63,16 @@ const upload = (dir) => {
 };
 
 function getUploadedFileURL(folder, filename) {
-  return `  http://localhost:3000/files/${folder}/${filename}`;
+  // Asegurar que no haya espacios en blanco
+  const cleanFolder = folder.trim();
+  const cleanFilename = filename.trim();
+
+  // Usar variable de entorno o fallback
+  const baseUrl = process.env.UPLOAD_BASE_URL || 'http://localhost:3000/files';
+
+  // Construir URL completa y limpia
+  const url = `${baseUrl}/${cleanFolder}/${cleanFilename}`;
+  return url;
 }
 
 module.exports = {

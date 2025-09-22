@@ -28,8 +28,8 @@ router.get(
 );
 router.post(
   "/",
-  validateHandler(courseSchema.create, "body"),
   upload(path.join(__dirname, "../../uploads/course")).single("image"),
+  validateHandler(courseSchema.create, "body"),
   courseController.createCourse
 );
 router.post(
