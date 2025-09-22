@@ -12,9 +12,9 @@ import CoursesManagement from "./pages/(app)/CoursesManagement";
 
 export default function App() {
     return (
-        <ThemeProvider>
-            <BrowserRouter>
-                <AuthProvider>
+        <BrowserRouter>
+            <AuthProvider>
+                <ThemeProvider>
                     <Routes>
                         <Route element={<GuestLayout />}>
                             <Route path="/" element={<Home />}>
@@ -30,8 +30,8 @@ export default function App() {
                         </Route>
                     </Routes>
                     <ToastContainer position="top-right" />
-                </AuthProvider>
-            </BrowserRouter>
-        </ThemeProvider>
+                </ThemeProvider>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }

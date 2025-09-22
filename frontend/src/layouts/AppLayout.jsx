@@ -23,7 +23,7 @@ export default function AppLayout() {
         configuraciones: false,
     });
 
-    const { user, state: sessionState } = useAuth();
+    const { user } = useAuth();
 
     // Helper function para clases de transición de texto
     const getTextTransitionClasses = (collapsed) =>
@@ -124,7 +124,11 @@ export default function AppLayout() {
                         )}
                     </li>
                     <li>
-                        <Link to="/courses" className={getMenuItemClasses(leftCollapsed)} data-tip="Cursos">
+                        <Link
+                            to="/courses"
+                            className={getMenuItemClasses(leftCollapsed)}
+                            data-tip="Cursos"
+                        >
                             <BookOpen className="w-5 h-5 flex-shrink-0" />
                             <span className={getTextTransitionClasses(leftCollapsed)}>Cursos</span>
                         </Link>
@@ -196,8 +200,13 @@ export default function AppLayout() {
                             </div>
                             <div className="grow flex items-center w-full w-min-0">
                                 <div className="grow min-w-0 flex flex-col">
-                                    <span className="text-sm font-bold"> {user?.name || "Usuario"}</span>
-                                    <span className="text-xs text-gray-500">{user?.role || "usuario"}</span>
+                                    <span className="text-sm font-bold">
+                                        {" "}
+                                        {user?.name || "Usuario"}
+                                    </span>
+                                    <span className="text-xs text-gray-500">
+                                        {user?.role || "usuario"}
+                                    </span>
                                 </div>
                             </div>
                         </div>
