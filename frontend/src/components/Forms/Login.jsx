@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useApi } from "../../hooks/useQuery";
+import { fetchApiData } from "../../hooks/useQuery";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function Login() {
@@ -15,8 +15,7 @@ export default function Login() {
 
         const data = Object.fromEntries(new FormData(e.target));
 
-        const response = await useApi("post", "/auth/login", data, true); // true para notificaciones
-
+        const response = await fetchApiData("post", "/auth/login", data, true); // true para notificaciones
         if (response.success) {
             login(response.data.token, response.data.user); // Guardar token y datos del usuario en contexto
             navigate("/dashboard");

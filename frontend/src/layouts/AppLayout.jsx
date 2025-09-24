@@ -23,7 +23,7 @@ export default function AppLayout() {
         configuraciones: false,
     });
 
-    const { user } = useAuth();
+    const { session } = useAuth();
 
     // Helper function para clases de transición de texto
     const getTextTransitionClasses = (collapsed) =>
@@ -202,10 +202,10 @@ export default function AppLayout() {
                                 <div className="grow min-w-0 flex flex-col">
                                     <span className="text-sm font-bold">
                                         {" "}
-                                        {user?.name || "Usuario"}
+                                        {session?.name || "Usuario"}
                                     </span>
                                     <span className="text-xs text-gray-500">
-                                        {user?.role || "usuario"}
+                                        {session?.role || "usuario"}
                                     </span>
                                 </div>
                             </div>

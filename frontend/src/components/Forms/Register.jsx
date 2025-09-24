@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useApi } from "../../hooks/useQuery";
+import { fetchApiData } from "../../hooks/useQuery";
 import { toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -12,7 +12,7 @@ export default function Register() {
 
         const formData = Object.fromEntries(new FormData(e.target));
 
-        const response = await useApi("post", "/auth/register", formData, true);
+        const response = await fetchApiData("POST", "/users", formData, true);
 
         if (response.success) {
             login(response.data.token, response.data.user);

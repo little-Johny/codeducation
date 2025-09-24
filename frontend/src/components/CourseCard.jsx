@@ -16,7 +16,7 @@ const CourseCard = ({ course }) => {
                         </span>
                     </div>
                 )}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-end p-4">
+                <div className="absolute inset-0 group-hover:bg-black/30 transition-all duration-300 flex items-end p-4">
                     <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <h3 className="text-lg font-semibold mb-1">{course.title}</h3>
                         <p className="text-sm text-gray-200 mb-2">{course.category}</p>
