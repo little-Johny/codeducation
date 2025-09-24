@@ -1,116 +1,85 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import apiClient from "../lib/apiClient";
 
-async function fetch(method, url, body) {
+const API_URL = import.meta.env.VITE_API_URL;
+
+// Log de depuración para verificar el valor de API_URL
+console.log('API_URL:', API_URL);
+console.log('All env vars:', import.meta.env);
+
+async function apiFetch(endpoint, method = "get", body = null, contentType = "application/json") {
     try {
-        let response;
-        if (method === "get" || method === "delete") {
-            response = await apiClient[method](url);
-        } else {
-            response = await apiClient[method](url, body);
+        const token = localStorage.getItem("auth_token");
+
+        const options = {
+            method,
+            headers: {
+                "Content-Type": contentType,
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body,
+        };
+
+        if (contentType === "application/json") {
+            options.body = JSON.stringify(body);
         }
-        return response.data;
+
+        if (method.toLocaleLowerCase() === "get" || method.toLocaleLowerCase() === "delete") {
+            delete options.body;
+        }
+
+        const response = await fetch(`${API_URL}${endpoint}`, options);
+        const data = await response.json();
+        return data;
     } catch (error) {
-        return error?.response?.data || error;
+        console.error(error);
+        return {
+            success: true,
+            message: "Error al realizar la peticion: " + error.message,
+        };
     }
 }
 
-export function useGet(url = null, notify = false) {
+export function useGetData(endpoint) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [trigger, setTrigger] = useState(0);
-    const pathname = useLocation().pathname;
+    const location = useLocation();
 
     useEffect(() => {
-        if (!url) {
-            setData(null);
-            setLoading(false);
-            return;
-        }
-
         (async () => {
-            let id;
-
-            if (notify) id = toast("Cargando...", { isLoading: true });
-
-            const response = await fetch("get", url);
-            if (response) setLoading(false);
-
-            setData(response);
-
-            if (response && notify && id) {
-                const message = response?.message || "Tiempo de espera agotado";
-
-                if (typeof toast.update === 'function') {
-                    toast.update(id, {
-                        render: message,
-                        type: response.success ? "success" : "error",
-                        isLoading: false,
-                        autoClose: 3000,
-                    });
-                } else {
-                    // Fallback si update no existe
-                    toast.dismiss(id);
-                    if (response.success) {
-                        toast.success(message);
-                    } else {
-                        toast.error(message);
-                    }
-                }
+            const response = await apiFetch(endpoint);
+            if (!response.success) {
+                return setLoading(false);
             }
+            setLoading(false);
+            setData(response.data);
         })();
-    }, [url, trigger, pathname]);
+    }, [trigger, loading, location.pathname]);
 
-    const reload = (reset = false) => {
-        if (reset) {
-            setLoading(true);
-        }
+    const reload = () => {
         setTrigger((prev) => prev + 1);
     };
-
-    return {
-        data: data?.data || null,
-        message: data?.message || null,
-        loading,
-        reload,
-    };
+    return { data, reload, loading };
 }
 
-export async function useApi(
-    method = null,
-    url = null,
-    body = null,
-    notify = null,
-    headers = null
+export async function fetchApiData(
+    method,
+    endpoint,
+    body,
+    notify = true,
+    contentType = "application/json"
 ) {
-    if (!method) return;
-    let id;
+    const response = await apiFetch(endpoint, method, body, contentType);
 
-    if (notify) id = toast("Cargando...", { isLoading: true });
-
-    const response = await fetch(method, url, body, headers);
-
-    if (notify && response && id) {
-        const message = response?.message || "Operacion exitosa";
-        if (typeof toast.update === 'function') {
-            toast.update(id, {
-                render: message,
-                type: response?.success ? "success" : "error",
-                isLoading: false,
-                autoClose: 3000,
-            });
+    if (notify) {
+        if (response.succes) {
+            toast.success(response.message);
         } else {
-            // Fallback si update no existe
-            toast.dismiss(id);
-            if (response?.success) {
-                toast.success(message);
-            } else {
-                toast.error(message);
-            }
+            toast.error(response.error);
         }
     }
-
     return response;
 }

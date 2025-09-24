@@ -1,66 +1,50 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import apiClient from "../lib/apiClient";
+import { useGetData } from "../hooks/useQuery";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const navigate = useNavigate();
     const [token, setToken] = useState(null);
-    const [user, setUser] = useState(null);
     const [state, setState] = useState("unauthorized");
+
+    const {
+        data: session,
+        reload: relaodSession,
+        loading: loadingSession,
+    } = useGetData("/auth/session");
 
     useEffect(() => {
         const storedToken = localStorage.getItem("auth_token");
-        if (storedToken) {
-            setToken(storedToken);
-            // Obtener datos del usuario desde el backend
-            fetchUserData(storedToken);
-        } else {
-            setState("unauthorized");
-        }
-    }, []);
 
-    const fetchUserData = async () => {
-        try {
-            const response = await apiClient.get("/auth/session");
-            if (response.data.success) {
-                setUser(response.data.data);
-                setState("authorized");
-            } else {
-                // Token inválido, limpiar
-                localStorage.removeItem("auth_token");
-                setToken(null);
-                setState("unauthorized");
-            }
-        } catch (error) {
-            // Error al obtener sesión, limpiar
-            localStorage.removeItem("auth_token");
-            setToken(null);
-            setState("unauthorized");
-        }
-    };
+        if (!storedToken) return setState("unauthenticated");
+        if (!token) return setToken(storedToken);
 
-    const login = (newToken, userData) => {
-        localStorage.setItem("auth_token", newToken);
+        if (loadingSession) return setState("loading");
+        if (session) return setState("authenticated");
+        else if (!session && !loadingSession) return setState("unauthenticated");
+        return setState("loading");
+    }, [loadingSession, session]);
+
+    const login = (newToken) => {
         setToken(newToken);
-        setUser(userData);
-        setState("authorized");
+        localStorage.setItem("auth_token", newToken);
     };
 
     const logout = () => {
         localStorage.removeItem("auth_token");
         setToken(null);
-        setUser(null);
         setState("unauthorized");
-        navigate("/");
     };
 
     const value = {
         login,
         logout,
         token,
-        user,
+        session,
+        reload: (reset = false) => {
+            relaodSession(reset);
+        },
         state,
     };
 
