@@ -11,12 +11,11 @@ export default function Dashboard() {
                         <p className="text-sm text-base-content/70">
                             Resumen general de tu actividad
                         </p>
-                        <ThemeToggle />
                     </div>
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <button className="btn btn-outline">Exportar</button>
                         <button className="btn btn-primary">Nueva lección</button>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Tarjetas de estadísticas */}

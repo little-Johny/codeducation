@@ -46,14 +46,23 @@ export function useGetData(endpoint) {
     const location = useLocation();
 
     useEffect(() => {
+        let isMounted = true;
+
         (async () => {
+            setLoading(true);
             const response = await apiFetch(endpoint);
-            if (!response.success) {
-                return setLoading(false);
+
+            if (isMounted) return; // si el componente ya se desmonto no se continua con la ejecucion
+
+            if (response?.success) {
+                setData(response.data);
             }
             setLoading(false);
-            setData(response.data);
         })();
+        return () => {
+            // cleanup: se ejecuta al desmontar el componente
+            isMounted = false;
+        };
     }, [trigger, loading, location.pathname]);
 
     const reload = () => {

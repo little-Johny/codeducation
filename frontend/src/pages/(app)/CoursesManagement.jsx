@@ -1,29 +1,37 @@
-import React, { useState } from "react";
-import { useGetData, fetchApiData } from "../../hooks/useQuery";
+import { useRef, useState } from "react";
+
+import { BookPlus, RefreshCwIcon, Wallpaper } from "lucide-react";
+
+import LoadingComponent from "../../components/LoadingComponent";
 import CourseCard from "../../components/CourseCard";
 
+import { useGetData, fetchApiData } from "../../hooks/useQuery";
+import { useAuth } from "../../hooks/useAuth";
+
 export default function CoursesManagement() {
+    const { session } = useAuth();
+    const createModal = useRef(null);
+    const uploadModal = useRef(null);
+
+    const [loading, setLoading] = useState(false); // para formularios
     const {
         data: courses,
         loading: loadingCourses,
         reload: reloadCourses,
     } = useGetData("/courses");
-    const [modalCreateOpen, setModalCreateOpen] = useState(false);
-    const [modalUploadOpen, setModalUploadOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const handleCreateCourse = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         const formData = new FormData(e.target);
-
+        formData.append("userId", session.id);
         const result = await fetchApiData("post", "/courses", formData, true);
 
         setLoading(false);
 
         if (result?.success) {
-            setModalCreateOpen(false);
+            createModal.current?.close();
             e.target.reset();
             reloadCourses();
         }
@@ -32,6 +40,7 @@ export default function CoursesManagement() {
     const handleUploadImage = async (e) => {
         e.preventDefault();
         setLoading(true);
+
         const formData = new FormData(e.target);
         const result = await fetchApiData(
             "post",
@@ -39,44 +48,75 @@ export default function CoursesManagement() {
             formData,
             true
         );
+
+        setLoading(false);
+
         if (result?.success) {
-            setModalUploadOpen(false);
-            setLoading(false);
+            uploadModal.current?.close();
             e.target.reset();
             reloadCourses();
         }
     };
 
-    if (loadingCourses) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <span className="loading loading-spinner loading-lg"></span>
-            </div>
-        );
-    }
+    const toggleModal = (ref, action) => {
+        if (action === "close") return ref.current?.close();
+        return ref.current?.showModal();
+    };
+
+    if (loadingCourses) return <LoadingComponent size={30} />;
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-8">Cursos Disponibles</h1>
-            <div className="mb-4 flex gap-4">
-                <button className="btn btn-primary" onClick={() => setModalCreateOpen(true)}>
-                    Crear Nuevo Curso
+
+            {/* Botones de acción */}
+            <div className="mb-10 flex gap-4">
+                <button
+                    type="button"
+                    className="btn btn-primary tooltip tooltip-top"
+                    data-tip="Crear nuevo curso"
+                    onClick={() => toggleModal(createModal, "open")}
+                >
+                    <span className="hidden sm:block">Crear Nuevo Curso</span>
+                    <BookPlus className="block sm:hidden" />
                 </button>
-                <button className="btn btn-secondary" onClick={() => setModalUploadOpen(true)}>
-                    Subir Imagen de Portada
+                <button
+                    type="button"
+                    className="btn btn-secondary tooltip tooltip-top"
+                    data-tip="Agregar portada"
+                    onClick={() => toggleModal(uploadModal, "open")}
+                >
+                    <span className="hidden sm:block">Agregar Portada</span>
+                    <Wallpaper className="block sm:hidden" />
+                </button>
+
+                <button
+                    className="btn btn-success tooltip tooltip-top"
+                    data-tip="refrescar"
+                    type="button"
+                    onClick={() => reloadCourses()}
+                >
+                    <RefreshCwIcon />
                 </button>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                {courses?.map((course) => (
-                    <CourseCard key={course.id} course={course} />
-                ))}
+
+            {/* Lista de cursos o loader */}
+            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4 space-y-2">
+                {courses?.length ? (
+                    courses.map((course) => <CourseCard key={course.id} course={course} />)
+                ) : (
+                    <p className="col-span-full text-center text-gray-500">
+                        No hay cursos disponibles.
+                    </p>
+                )}
             </div>
 
             {/* Modal Crear Curso */}
-            <dialog open={modalCreateOpen} className="modal">
+            <dialog ref={createModal} className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Crear Nuevo Curso</h3>
                     <form onSubmit={handleCreateCourse}>
+                        {/* inputs */}
                         <label className="block mb-2">Título</label>
                         <input
                             type="text"
@@ -104,20 +144,18 @@ export default function CoursesManagement() {
                             accept="image/*"
                             name="image"
                         />
+
+                        {/* acciones */}
                         <div className="modal-action">
                             <button
                                 type="button"
                                 className="btn"
-                                onClick={() => setModalCreateOpen(false)}
+                                onClick={() => toggleModal(createModal, "close")}
                             >
                                 Cancelar
                             </button>
                             <button type="submit" className="btn btn-primary" disabled={loading}>
-                                {loading ? (
-                                    <span className="loading loading-spinner loading-sm"></span>
-                                ) : (
-                                    "Crear"
-                                )}
+                                {loading ? <LoadingComponent size={17} text={false} /> : "Crear"}
                             </button>
                         </div>
                     </form>
@@ -125,7 +163,7 @@ export default function CoursesManagement() {
             </dialog>
 
             {/* Modal Subir Imagen */}
-            <dialog open={modalUploadOpen} className="modal">
+            <dialog ref={uploadModal} className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Subir Imagen de Portada</h3>
                     <form onSubmit={handleUploadImage}>
@@ -156,16 +194,12 @@ export default function CoursesManagement() {
                             <button
                                 type="button"
                                 className="btn"
-                                onClick={() => setModalUploadOpen(false)}
+                                onClick={() => toggleModal(uploadModal, "close")}
                             >
                                 Cancelar
                             </button>
                             <button type="submit" className="btn btn-primary" disabled={loading}>
-                                {loading ? (
-                                    <span className="loading loading-spinner loading-sm"></span>
-                                ) : (
-                                    "Subir"
-                                )}
+                                {loading ? <LoadingComponent size={17} text={false} /> : "Subir"}
                             </button>
                         </div>
                     </form>
