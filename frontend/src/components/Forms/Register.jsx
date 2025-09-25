@@ -12,7 +12,7 @@ export default function Register() {
 
         const formData = Object.fromEntries(new FormData(e.target));
 
-        const response = await fetchApiData("POST", "/users", formData, true);
+        const response = await fetchApiData("POST", "/auth/register", formData, true);
 
         if (response.success) {
             login(response.data.token, response.data.user);

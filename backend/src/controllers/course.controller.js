@@ -53,7 +53,7 @@ class CourseController {
       const { id } = req.params;
       const file = req.file;
       const result = await this.courseService.addCourseImage(id, file);
-      res.success(result, "Image uploaded successfully", 201);
+      res.success(result, "Imagen actualizada exitosamente", 201);
     } catch (err) {
       next(err);
     }

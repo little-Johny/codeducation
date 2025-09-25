@@ -26,13 +26,13 @@ class CourseService {
     async createCourse(data, file) {
         const transaction = await sequelize.transaction();
         try {
-            console.log('[DEBUG] Creating course:', { data, hasFile: !!file });
+            console.log("[DEBUG] Creating course:", { data, hasFile: !!file });
             if (file) {
-                console.log('[DEBUG] File info:', {
+                console.log("[DEBUG] File info:", {
                     filename: file.filename,
                     originalname: file.originalname,
                     mimetype: file.mimetype,
-                    size: file.size
+                    size: file.size,
                 });
             }
 
@@ -41,15 +41,12 @@ class CourseService {
             });
             if (file) {
                 const imageUrl = getUploadedFileURL("course", file.filename);
-                console.log('[DEBUG] Generated image URL:', imageUrl);
                 await newCourse.update({ image: imageUrl }, { transaction });
             }
 
             await transaction.commit();
-            console.log('[DEBUG] Course created successfully:', newCourse.toJSON());
             return newCourse;
         } catch (error) {
-            console.log('[DEBUG] Error creating course:', error);
             await transaction.rollback();
             throw error;
         }
@@ -57,33 +54,17 @@ class CourseService {
 
     async addCourseImage(id, file) {
         try {
-            console.log('[DEBUG] Adding image to course:', { courseId: id, hasFile: !!file });
-            if (file) {
-                console.log('[DEBUG] File info:', {
-                    filename: file.filename,
-                    originalname: file.originalname,
-                    mimetype: file.mimetype,
-                    size: file.size
-                });
-            }
-
             const course = await this.courseRepository.findById(id);
             if (!course) throw boom.notFound("Course not found");
 
             if (!file) throw boom.badRequest("No image file provided");
 
             const imageUrl = getUploadedFileURL("course", file.filename);
-            console.log('[DEBUG] Generated image URL:', imageUrl);
 
             const updatedCourse = await course.update({ image: imageUrl });
-            console.log('[DEBUG] Course updated successfully:', updatedCourse.toJSON());
 
-            return {
-                message: "Image uploaded successfully",
-                course: updatedCourse,
-            };
+            return updatedCourse;
         } catch (error) {
-            console.log('[DEBUG] Error adding course image:', error);
             throw error;
         }
     }

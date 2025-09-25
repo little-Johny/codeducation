@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import {
     House,
@@ -14,16 +14,22 @@ import ThemeToggle from "../components/ThemeToggle";
 import { useAuth } from "../hooks/useAuth";
 
 export default function AppLayout() {
-    const [leftCollapsed, setLeftCollapsed] = useState(false);
-    const [rightCollapsed, setRightCollapsed] = useState(false);
-    const [optionsOpen, setOptionOpen] = useState({
-        inicio: false,
-        lecciones: false,
-        estadisticas: false,
-        configuraciones: false,
-    });
+    const [leftCollapsed, setLeftCollapsed] = useState(
+        () => localStorage.getItem("leftCollapse") === "true"
+    );
+    const [rightCollapsed, setRightCollapsed] = useState(
+        () => localStorage.getItem("rightCollapse") === "true"
+    );
 
     const { session } = useAuth();
+
+    useEffect(() => {
+        localStorage.setItem("leftCollapse", leftCollapsed);
+    }, [leftCollapsed]);
+
+    useEffect(() => {
+        localStorage.setItem("rightCollapse", rightCollapsed);
+    }, [rightCollapsed]);
 
     // Helper function para clases de transición de texto
     const getTextTransitionClasses = (collapsed) =>
@@ -59,23 +65,14 @@ export default function AppLayout() {
                     <div className="flex items-center gap-2">
                         {!leftCollapsed && <ThemeToggle />}
                         <button
-                            onClick={() => {
-                                setLeftCollapsed(!leftCollapsed);
-                                setOptionOpen({
-                                    ...optionsOpen,
-                                    inicio: false,
-                                    lecciones: false,
-                                    estadisticas: false,
-                                    configuraciones: false,
-                                });
-                            }}
+                            onClick={() => setLeftCollapsed(!leftCollapsed)}
                             className={getCollapseButtonClasses()}
                             title={leftCollapsed ? "Expandir menú" : "Colapsar menú"}
                         >
                             {leftCollapsed ? (
-                                <PanelRightOpen className="w-5 h-5" />
-                            ) : (
                                 <PanelRightClose className="w-5 h-5" />
+                            ) : (
+                                <PanelRightOpen className="w-5 h-5" />
                             )}
                         </button>
                     </div>
@@ -86,42 +83,14 @@ export default function AppLayout() {
                     }`}
                 >
                     <li>
-                        <span
+                        <Link
+                            to="/dashboard"
                             className={`${getMenuItemClasses(leftCollapsed)} cursor-pointer `}
                             data-tip="Inicio"
-                            onClick={() =>
-                                setOptionOpen({
-                                    ...optionsOpen,
-                                    inicio: leftCollapsed ? false : !optionsOpen.inicio,
-                                })
-                            }
                         >
                             <House className="w-5 h-5 flex-shrink-0" />
                             <span className={getTextTransitionClasses(leftCollapsed)}>Inicio</span>
-                        </span>
-                        {optionsOpen.inicio && (
-                            <ul>
-                                <li>
-                                    <a>Submenu 1</a>
-                                </li>
-                                <li>
-                                    <a>Submenu 2</a>
-                                </li>
-                                <li>
-                                    <details open={leftCollapsed ? false : optionsOpen.inicio}>
-                                        <summary>Parent</summary>
-                                        <ul>
-                                            <li>
-                                                <a>Submenu 1</a>
-                                            </li>
-                                            <li>
-                                                <a>Submenu 2</a>
-                                            </li>
-                                        </ul>
-                                    </details>
-                                </li>
-                            </ul>
-                        )}
+                        </Link>
                     </li>
                     <li>
                         <Link

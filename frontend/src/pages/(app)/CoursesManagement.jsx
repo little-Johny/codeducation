@@ -3,78 +3,51 @@ import { useGetData, fetchApiData } from "../../hooks/useQuery";
 import CourseCard from "../../components/CourseCard";
 
 export default function CoursesManagement() {
-    const { data: courses, loading, reload } = useGetData("/courses");
+    const {
+        data: courses,
+        loading: loadingCourses,
+        reload: reloadCourses,
+    } = useGetData("/courses");
     const [modalCreateOpen, setModalCreateOpen] = useState(false);
     const [modalUploadOpen, setModalUploadOpen] = useState(false);
-    const [formData, setFormData] = useState({ title: "", description: "", category: "" });
-    const [selectedCourse, setSelectedCourse] = useState("");
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [selectedFileCreate, setSelectedFileCreate] = useState(null);
-    const [submitting, setSubmitting] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleCreateCourse = async (e) => {
         e.preventDefault();
-        setSubmitting(true);
-        let body = formData;
-        if (selectedFileCreate) {
-            body = new FormData();
-            body.append("title", formData.title);
-            body.append("description", formData.description);
-            body.append("category", formData.category);
-            body.append("image", selectedFileCreate);
+        setLoading(true);
 
-            console.log("[DEBUG] Creating course with file:", {
-                title: formData.title,
-                fileName: selectedFileCreate.name,
-                fileSize: selectedFileCreate.size,
-                fileType: selectedFileCreate.type,
-            });
-        } else {
-            console.log("[DEBUG] Creating course without file:", formData);
-        }
+        const formData = new FormData(e.target);
 
-        const result = await fetchApiData("post", "courses", body, true);
+        const result = await fetchApiData("post", "/courses", formData, true);
 
-        setSubmitting(false);
+        setLoading(false);
+
         if (result?.success) {
             setModalCreateOpen(false);
-            setFormData({ title: "", description: "", category: "" });
-            setSelectedFileCreate(null);
-            reload();
+            e.target.reset();
+            reloadCourses();
         }
     };
 
     const handleUploadImage = async (e) => {
         e.preventDefault();
-        if (!selectedCourse || !selectedFile) return;
-        setSubmitting(true);
-        const formDataUpload = new FormData();
-        formDataUpload.append("image", selectedFile);
-
-        console.log("[DEBUG] Uploading image to course:", {
-            courseId: selectedCourse,
-            fileName: selectedFile.name,
-            fileSize: selectedFile.size,
-            fileType: selectedFile.type,
-        });
-
-        const result = await useApi(
+        setLoading(true);
+        const formData = new FormData(e.target);
+        const result = await fetchApiData(
             "post",
-            `/courses/${selectedCourse}/files`,
-            formDataUpload,
+            `/courses/${formData.get("course_id")}/files`,
+            formData,
             true
         );
-
-        setSubmitting(false);
         if (result?.success) {
             setModalUploadOpen(false);
-            setSelectedCourse("");
-            setSelectedFile(null);
-            reload();
+            setLoading(false);
+            e.target.reset();
+            reloadCourses();
         }
     };
 
-    if (loading) {
+    if (loadingCourses) {
         return (
             <div className="flex justify-center items-center h-64">
                 <span className="loading loading-spinner loading-lg"></span>
@@ -104,44 +77,33 @@ export default function CoursesManagement() {
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Crear Nuevo Curso</h3>
                     <form onSubmit={handleCreateCourse}>
-                        <div className="py-4">
-                            <label className="block mb-2">Título</label>
-                            <input
-                                type="text"
-                                className="input input-bordered w-full"
-                                value={formData.title}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, title: e.target.value })
-                                }
-                                required
-                            />
-                            <label className="block mb-2 mt-4">Descripción</label>
-                            <textarea
-                                className="textarea textarea-bordered w-full"
-                                value={formData.description}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, description: e.target.value })
-                                }
-                                required
-                            />
-                            <label className="block mb-2 mt-4">Categoría</label>
-                            <input
-                                type="text"
-                                className="input input-bordered w-full"
-                                value={formData.category}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, category: e.target.value })
-                                }
-                                required
-                            />
-                            <label className="block mb-2 mt-4">Imagen de Portada (opcional)</label>
-                            <input
-                                type="file"
-                                className="file-input file-input-bordered w-full"
-                                accept="image/*"
-                                onChange={(e) => setSelectedFileCreate(e.target.files[0])}
-                            />
-                        </div>
+                        <label className="block mb-2">Título</label>
+                        <input
+                            type="text"
+                            className="input input-bordered w-full"
+                            name="title"
+                            required
+                        />
+                        <label className="block mb-2 mt-4">Descripción</label>
+                        <textarea
+                            className="textarea textarea-bordered w-full"
+                            name="description"
+                            required
+                        />
+                        <label className="block mb-2 mt-4">Categoría</label>
+                        <input
+                            type="text"
+                            className="input input-bordered w-full"
+                            name="category"
+                            required
+                        />
+                        <label className="block mb-2 mt-4">Imagen de Portada (opcional)</label>
+                        <input
+                            type="file"
+                            className="file-input file-input-bordered w-full"
+                            accept="image/*"
+                            name="image"
+                        />
                         <div className="modal-action">
                             <button
                                 type="button"
@@ -150,8 +112,8 @@ export default function CoursesManagement() {
                             >
                                 Cancelar
                             </button>
-                            <button type="submit" className="btn btn-primary" disabled={submitting}>
-                                {submitting ? (
+                            <button type="submit" className="btn btn-primary" disabled={loading}>
+                                {loading ? (
                                     <span className="loading loading-spinner loading-sm"></span>
                                 ) : (
                                     "Crear"
@@ -171,8 +133,7 @@ export default function CoursesManagement() {
                             <label className="block mb-2">Seleccionar Curso</label>
                             <select
                                 className="select select-bordered w-full"
-                                value={selectedCourse}
-                                onChange={(e) => setSelectedCourse(e.target.value)}
+                                name="course_id"
                                 required
                             >
                                 <option value="">Selecciona un curso</option>
@@ -185,9 +146,9 @@ export default function CoursesManagement() {
                             <label className="block mb-2 mt-4">Seleccionar Imagen</label>
                             <input
                                 type="file"
+                                name="image"
                                 className="file-input file-input-bordered w-full"
                                 accept="image/*"
-                                onChange={(e) => setSelectedFile(e.target.files[0])}
                                 required
                             />
                         </div>
@@ -199,12 +160,8 @@ export default function CoursesManagement() {
                             >
                                 Cancelar
                             </button>
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                disabled={submitting || !selectedCourse || !selectedFile}
-                            >
-                                {submitting ? (
+                            <button type="submit" className="btn btn-primary" disabled={loading}>
+                                {loading ? (
                                     <span className="loading loading-spinner loading-sm"></span>
                                 ) : (
                                     "Subir"
