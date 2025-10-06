@@ -21,7 +21,7 @@ export default function AppLayout() {
         () => localStorage.getItem("rightCollapse") === "true"
     );
 
-    const { session } = useAuth();
+    const { session, logout, reload } = useAuth();
 
     useEffect(() => {
         localStorage.setItem("leftCollapse", leftCollapsed);
@@ -123,7 +123,7 @@ export default function AppLayout() {
 
             {/* Contenido central */}
             <div className="flex-1 p-4 md:p-6 bg-base-300 overflow-y-auto min-h-0">
-                <div className="max-w-full">
+                <div className="max-w-full h-full flex flex-col flex-1 mx-auto bg-base-100 rounded-lg shadow-xl p-4 md:p-6">
                     <Outlet />
                 </div>
             </div>
@@ -157,17 +157,18 @@ export default function AppLayout() {
                 {/* Contenido del sidebar */}
                 <div className={`flex-1 px-4 pb-4 ${rightCollapsed ? "hidden" : "block"}`}>
                     {/* Seccion de Perfil */}
-                    <div className="mb-6 bg-base-100 p-2 rounded-lg shadow-sm hover:scale-105 transition-all duration-200 hover:shadow-lg cursor-pointer">
+                    <div className="dropdown dropdown-left mb-6 bg-base-100 p-2 rounded-lg shadow-sm hover:scale-105 transition-all duration-200 hover:shadow-lg cursor-pointer">
                         <div
                             className="flex flex-col md:flex-row items-center gap-3 tooltip tooltip-bottom"
                             data-tip="ver perfil"
+                            tabIndex={0}
                         >
                             <div className="avatar avatar-placeholder">
                                 <div className="bg-neutral-content text-neutral-content rounded-full w-13">
                                     <span className="text-neutral">{}</span>
                                 </div>
                             </div>
-                            <div className="grow flex items-center w-full w-min-0">
+                            <div className="grow flex items-center w-full min-w-0">
                                 <div className="grow min-w-0 flex flex-col">
                                     <span className="text-sm font-bold">
                                         {" "}
@@ -179,6 +180,20 @@ export default function AppLayout() {
                                 </div>
                             </div>
                         </div>
+                        <ul
+                            tabIndex={0}
+                            className="dropdown-content menu bg-base-300 rounded-box z-1 w-52 p-2 shadow-sm"
+                        >
+                            <li>
+                                <a>Ver perfil</a>
+                            </li>
+                            <li className="hover:text-red-500" onClick={() => {
+                                logout();
+                                reload();
+                            }}>
+                                <a>Cerrar sesion</a>
+                            </li>
+                        </ul>
                     </div>
 
                     {/* Sección de Estadísticas */}

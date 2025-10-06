@@ -41,28 +41,18 @@ async function apiFetch(endpoint, method = "get", body = null) {
 
 export function useGetData(endpoint) {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [trigger, setTrigger] = useState(0);
     const location = useLocation();
 
     useEffect(() => {
-        let isMounted = true;
-
         (async () => {
-            setLoading(true);
             const response = await apiFetch(endpoint);
 
-            if (isMounted) return; // si el componente ya se desmonto no se continua con la ejecucion
+            if (response?.success) setData(response.data);
 
-            if (response?.success) {
-                setData(response.data);
-            }
             setLoading(false);
         })();
-        return () => {
-            // cleanup: se ejecuta al desmontar el componente
-            isMounted = false;
-        };
     }, [trigger, loading, location.pathname]);
 
     const reload = () => {
