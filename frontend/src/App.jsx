@@ -10,6 +10,7 @@ import Login from "./components/Forms/Login";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
 import CoursesManagement from "./pages/(app)/CoursesManagement";
+import CourseLessons from "./pages/(app)/CourseLessons";
 
 export default function App() {
     return (
@@ -31,6 +32,7 @@ export default function App() {
                             <Route element={<AppLayout />}>
                                 <Route path="/dashboard" element={<Dashboard />} />
                                 <Route path="/courses" element={<CoursesManagement />} />
+                                <Route path="/courses-details/:id" element={<CourseLessons />} />
                             </Route>
                         </Route>
                     </Routes>
