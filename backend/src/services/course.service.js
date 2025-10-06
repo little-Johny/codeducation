@@ -12,7 +12,7 @@ class CourseService {
     }
 
     async getCourseById(id) {
-        const course = await this.courseRepository.findById(id);
+        const course = await this.courseRepository.getCourseById(id);
         if (!course) throw boom.notFound("Course not found");
         return course;
     }
