@@ -61,7 +61,7 @@ export function useGetData(endpoint) {
     return { data, reload, loading };
 }
 
-export async function fetchApiData(method, endpoint, body, notify = true) {
+export async function fetchApiData(method, endpoint, body = null, notify = true) {
     const response = await apiFetch(endpoint, method, body);
 
     if (notify) {

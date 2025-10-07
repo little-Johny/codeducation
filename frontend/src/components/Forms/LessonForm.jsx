@@ -2,7 +2,6 @@ export default function LessonForm({ onSubmit = () => {} }) {
     return (
         <form
             onSubmit={onSubmit}
-            encType="multipart/form-data" // ✅ importante para archivos
             className="flex flex-col gap-3 w-full"
         >
             <div>
@@ -61,7 +60,7 @@ export default function LessonForm({ onSubmit = () => {} }) {
                             className="hidden"
                             type="file"
                             name="videoUrl"
-                            accept="video/*" // ✅ acepta videos
+                            accept="video/*" 
                             required
                             onChange={() => console.log("Video cargado")}
                         />

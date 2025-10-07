@@ -11,6 +11,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
 import CoursesManagement from "./pages/(app)/CoursesManagement";
 import CourseLessons from "./pages/(app)/CourseLessons";
+import VideoWatch from "./pages/(app)/VideoWatch";
 
 export default function App() {
     return (
@@ -33,6 +34,7 @@ export default function App() {
                                 <Route path="/dashboard" element={<Dashboard />} />
                                 <Route path="/courses" element={<CoursesManagement />} />
                                 <Route path="/courses-details/:id" element={<CourseLessons />} />
+                                <Route path="/lesson/:id" element={<VideoWatch />} />
                             </Route>
                         </Route>
                     </Routes>

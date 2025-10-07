@@ -17,12 +17,13 @@ export default function CourseLessons() {
         e.preventDefault();
 
         const formData = new FormData(e.target);
+        formData.append("courseId", course.id);
         console.log("DEBUG: formData entries:", Array.from(formData.entries()));
         const data = Object.fromEntries(formData.entries());
         console.log("DEBUG: data object:", data);
-        data.courseId = id;
         console.log("DEBUG: data with courseId:", data);
-        const response = await fetchApiData("post", "/lessons", data);
+        const response = await fetchApiData("post", "/lessons", formData);
+        console.log(response);
         if (response?.success) {
             courseReload();
         }
@@ -51,10 +52,11 @@ export default function CourseLessons() {
                 </div>
             </div>
             <div className="w-full bg-base-100">
-                Lecciones:
-                <div>
+                <h2 className="text-xl font-semibold">Lecciones</h2>
+                <div className="divider mt-0"></div>
+                <div className="space-y-4">
                     {course.lessons.length > 0 ? (
-                        course.lessons.map((l) => <LessonCard lesson={l} />)
+                        course.lessons.map((l) => <LessonCard lesson={l} reload={courseReload} />)
                     ) : (
                         <div>Este curso aun no tiene lecciones para ver</div>
                     )}
