@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import { fetchApiData } from "../../hooks/useQuery";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { Play } from "lucide-react";
 
 export default function LessonCard({ lesson, reload = () => {} }) {
+    const [uploading, setUploading] = useState(false);
+
     const handleDelete = async (id) => {
         const confirm = window.confirm("¿Estás seguro de que quieres eliminar esta lección?");
         if (confirm) {
@@ -9,6 +14,46 @@ export default function LessonCard({ lesson, reload = () => {} }) {
             if (reload) {
                 reload();
             }
+        }
+    };
+
+    const handleFileUpload = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const file = formData.get("file");
+
+        // Validacion
+        const allowedTypes = [
+            "image/jpeg", "image/png", "image/jpg", "image/gif", "image/webp",
+            "video/mp4", "video/quicktime", "video/x-msvideo",
+            "application/pdf", "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            toast.error("Tipo de archivo no permitido. Solo se permiten imágenes, videos, PDFs y documentos de Office.");
+            return;
+        }
+
+        setUploading(true);
+        try {
+            const uploadFormData = new FormData();
+            uploadFormData.append("file", file);
+
+            const response = await fetchApiData("post", `/files/lesson/${lesson.id}`, uploadFormData, true);
+            if (response?.success) {
+                document.getElementById(`upload_modal_${lesson.id}`).close();
+                if (reload) reload();
+            } else {
+                toast.error("Error al subir el archivo");
+            }
+        } catch (error) {
+            console.error("Error uploading file:", error);
+            toast.error("Error al subir el archivo");
+        } finally {
+            setUploading(false);
         }
     };
     return (
@@ -50,14 +95,64 @@ export default function LessonCard({ lesson, reload = () => {} }) {
                             to={`/lesson/${lesson.id}`}
                             className="btn btn-info text-base-content"
                         >
-                            Ver
+                            <Play fill="bg-neutral"/>
                         </Link>
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => document.getElementById(`upload_modal_${lesson.id}`).showModal()}
+                        >
+                            Adjuntar archivo
+                        </button>
                         <button className="btn btn-error" onClick={() => handleDelete(lesson.id)}>
                             Eliminar
                         </button>
                     </div>
                 </div>
             </div>
+
+            {/* Modal para subir archivo */}
+            <dialog id={`upload_modal_${lesson.id}`} className="modal">
+                <div className="modal-box">
+                    <button
+                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                        onClick={() => document.getElementById(`upload_modal_${lesson.id}`).close()}
+                    >
+                        ✕
+                    </button>
+                    <h3 className="font-bold text-lg">Adjuntar archivo a {lesson.name}</h3>
+                    <form onSubmit={handleFileUpload} className="mt-4">
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Seleccionar archivo</span>
+                            </label>
+                            <input
+                                type="file"
+                                name="file"
+                                className="file-input file-input-bordered file-input-primary w-full"
+                                accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mov,.avi,.pdf,.doc,.docx,.xls,.xlsx"
+                                required
+                            />
+                            <div className="label">
+                                <span className="label-text-alt text-gray-500">
+                                    Tipos permitidos: Imágenes, videos, PDFs, documentos de Office. Máximo 5MB.
+                                </span>
+                            </div>
+                        </div>
+                        <div className="modal-action">
+                            <button
+                                type="button"
+                                className="btn"
+                                onClick={() => document.getElementById(`upload_modal_${lesson.id}`).close()}
+                            >
+                                Cancelar
+                            </button>
+                            <button type="submit" className="btn btn-primary" disabled={uploading}>
+                                {uploading ? "Subiendo..." : "Subir archivo"}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
         </div>
     );
 }

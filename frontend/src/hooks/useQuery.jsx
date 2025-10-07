@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -24,7 +23,7 @@ async function apiFetch(endpoint, method = "get", body = null) {
             options.body = JSON.stringify(body);
         }
 
-        if (method.toLowerCase() === "get" || method.toLowerCase() === "delete") {
+        if (["get", "delete"].includes(method.toLowerCase())) {
             delete options.body;
         }
 
@@ -43,17 +42,17 @@ export function useGetData(endpoint) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [trigger, setTrigger] = useState(0);
-    const location = useLocation();
 
     useEffect(() => {
         (async () => {
+            if (!endpoint) return;
             const response = await apiFetch(endpoint);
 
             if (response?.success) setData(response.data);
 
             setLoading(false);
         })();
-    }, [trigger, loading, location.pathname]);
+    }, [trigger, loading, endpoint]);
 
     const reload = () => {
         setTrigger((prev) => prev + 1);
