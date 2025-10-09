@@ -35,9 +35,9 @@ export default function CourseLessons() {
     }
 
     return (
-        <div className="flex flex-col flex-1 space-y-2">
+        <div className="flex flex-col flex-1 min-h-0">
             <div
-                className="relative w-full h-[50%] bg-cover bg-center flex overflow-hidden hover:scale-101 hover:transition-all hover:duration-300 rounded-lg"
+                className="h-92 relative w-full bg-cover bg-center overflow-hidden rounded-lg"
                 style={{ backgroundImage: `url(${course.image})` }}
             >
                 <div className="absolute inset-0 bg-black/50"></div>
@@ -51,7 +51,8 @@ export default function CourseLessons() {
                     </button>
                 </div>
             </div>
-            <div className="w-full bg-base-100">
+            <div className="flex-1 overflow-y-auto bg-base-100 p-4 rounded-lg mt-2">
+                {" "}
                 <h2 className="text-xl font-semibold">Lecciones</h2>
                 <div className="divider mt-0"></div>
                 <div className="space-y-4">

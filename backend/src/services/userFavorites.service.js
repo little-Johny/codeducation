@@ -75,7 +75,7 @@ class UserFavoritesService {
             
             if (existingFavorite) {
                 // Si existe, eliminarlo
-                await existingFavorite.destroy({ transaction });
+                await existingFavorite.destroy({ transaction, force: true });
                 await transaction.commit();
                 return { favorited: false, message: "Favorite removed" };
             } else {

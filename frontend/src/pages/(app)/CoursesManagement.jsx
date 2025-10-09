@@ -64,10 +64,10 @@ export default function CoursesManagement() {
         return ref.current?.showModal();
     };
 
-    if (loadingCourses) return <LoadingComponent size={30} />;
+    if (loadingCourses) return <LoadingComponent size={100} />;
 
     return (
-        <div className="mx-auto px-4 py-8">
+        <div className=" px-4 py-8">
             <h1 className="text-3xl font-bold mb-8">Cursos Disponibles</h1>
 
             {/* Botones de acción */}

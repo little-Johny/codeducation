@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { fetchApiData } from "../../hooks/useQuery";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Play } from "lucide-react";
+import { Play, Upload, Trash2 } from "lucide-react";
 
 export default function LessonCard({ lesson, reload = () => {} }) {
     const [uploading, setUploading] = useState(false);
@@ -11,9 +11,7 @@ export default function LessonCard({ lesson, reload = () => {} }) {
         const confirm = window.confirm("¿Estás seguro de que quieres eliminar esta lección?");
         if (confirm) {
             await fetchApiData("delete", `/lessons/${id}`);
-            if (reload) {
-                reload();
-            }
+            if (reload) reload();
         }
     };
 
@@ -22,18 +20,26 @@ export default function LessonCard({ lesson, reload = () => {} }) {
         const formData = new FormData(e.target);
         const file = formData.get("file");
 
-        // Validacion
         const allowedTypes = [
-            "image/jpeg", "image/png", "image/jpg", "image/gif", "image/webp",
-            "video/mp4", "video/quicktime", "video/x-msvideo",
-            "application/pdf", "application/msword",
+            "image/jpeg",
+            "image/png",
+            "image/jpg",
+            "image/gif",
+            "image/webp",
+            "video/mp4",
+            "video/quicktime",
+            "video/x-msvideo",
+            "application/pdf",
+            "application/msword",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             "application/vnd.ms-excel",
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         ];
 
         if (!allowedTypes.includes(file.type)) {
-            toast.error("Tipo de archivo no permitido. Solo se permiten imágenes, videos, PDFs y documentos de Office.");
+            toast.error(
+                "Tipo de archivo no permitido. Solo se permiten imágenes, videos, PDFs y documentos de Office."
+            );
             return;
         }
 
@@ -41,8 +47,13 @@ export default function LessonCard({ lesson, reload = () => {} }) {
         try {
             const uploadFormData = new FormData();
             uploadFormData.append("file", file);
+            const response = await fetchApiData(
+                "post",
+                `/files/lesson/${lesson.id}`,
+                uploadFormData,
+                true
+            );
 
-            const response = await fetchApiData("post", `/files/lesson/${lesson.id}`, uploadFormData, true);
             if (response?.success) {
                 document.getElementById(`upload_modal_${lesson.id}`).close();
                 if (reload) reload();
@@ -56,10 +67,11 @@ export default function LessonCard({ lesson, reload = () => {} }) {
             setUploading(false);
         }
     };
+
     return (
-        <div className="flex bg-base-100 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 ">
+        <div className="flex bg-base-100 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
             {/* Video o imagen previa */}
-            <div className="relative flex-1/3 h-48 bg-gray-200 overflow-hidden">
+            <div className="relative w-1/3 h-48 bg-gray-200 overflow-hidden">
                 {lesson.videoUrl ? (
                     <video src={lesson.videoUrl.trim()} className="w-full h-full object-cover" />
                 ) : (
@@ -74,37 +86,51 @@ export default function LessonCard({ lesson, reload = () => {} }) {
             </div>
 
             {/* Contenido */}
-            <div className=" flex-2/3 p-4 flex flex-col gap-2">
+            <div className="w-2/3 p-4 flex flex-col gap-2">
                 <h3 className="text-lg font-bold text-base-content line-clamp-1">{lesson.name}</h3>
                 <p className="text-sm text-gray-600 line-clamp-2">
                     {lesson.description || "Sin descripción"}
                 </p>
 
-                {/* Fecha de creación */}
                 <div className="flex items-center justify-between text-xs text-gray-500 mt-2">
                     <span>
-                        Creada:
+                        Creada:{" "}
                         {new Date(lesson.created_at).toLocaleDateString("es-CO", {
                             day: "2-digit",
                             month: "short",
                             year: "numeric",
                         })}
                     </span>
-                    <div className="flex flex-col gap-2">
+
+                    {/* Botones organizados */}
+                    <div className="flex gap-2">
                         <Link
                             to={`/lesson/${lesson.id}`}
-                            className="btn btn-info text-base-content"
+                            className="btn btn-sm btn-info flex items-center gap-2 tooltip tooltip-top"
+                            data-tip="Ver leccion"
+                            title="Ver lección"
                         >
-                            <Play fill="bg-neutral"/>
+                            <Play size={16} />
                         </Link>
+
                         <button
-                            className="btn btn-secondary"
-                            onClick={() => document.getElementById(`upload_modal_${lesson.id}`).showModal()}
+                            className="btn btn-sm btn-secondary flex items-center gap-2 tooltip tooltip-top"
+                            onClick={() =>
+                                document.getElementById(`upload_modal_${lesson.id}`).showModal()
+                            }
+                            data-tip="Adjuntar archivo"
+                            title="Adjuntar archivo"
                         >
-                            Adjuntar archivo
+                            <Upload size={16} />
                         </button>
-                        <button className="btn btn-error" onClick={() => handleDelete(lesson.id)}>
-                            Eliminar
+
+                        <button
+                            className="btn btn-sm btn-error flex items-center gap-2 tooltip tooltip-top"
+                            onClick={() => handleDelete(lesson.id)}
+                            data-tip="Eliminar"
+                            title="Eliminar lección"
+                        >
+                            <Trash2 size={16} />
                         </button>
                     </div>
                 </div>
@@ -134,7 +160,8 @@ export default function LessonCard({ lesson, reload = () => {} }) {
                             />
                             <div className="label">
                                 <span className="label-text-alt text-gray-500">
-                                    Tipos permitidos: Imágenes, videos, PDFs, documentos de Office. Máximo 5MB.
+                                    Tipos permitidos: Imágenes, videos, PDFs, documentos de Office.
+                                    Máximo 5MB.
                                 </span>
                             </div>
                         </div>
@@ -142,7 +169,9 @@ export default function LessonCard({ lesson, reload = () => {} }) {
                             <button
                                 type="button"
                                 className="btn"
-                                onClick={() => document.getElementById(`upload_modal_${lesson.id}`).close()}
+                                onClick={() =>
+                                    document.getElementById(`upload_modal_${lesson.id}`).close()
+                                }
                             >
                                 Cancelar
                             </button>

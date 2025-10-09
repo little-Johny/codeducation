@@ -9,6 +9,7 @@ import {
     PanelRightClose,
     ChevronLeft,
     ChevronRight,
+    ArrowBigLeft,
 } from "lucide-react";
 import ThemeToggle from "../components/ThemeToggle";
 import { useAuth } from "../hooks/useAuth";
@@ -123,8 +124,20 @@ export default function AppLayout() {
 
             {/* Contenido central */}
             <div className="flex-1 p-4 md:p-6 bg-base-300 overflow-y-auto min-h-0">
-                <div className="max-w-full h-full flex flex-col flex-1 mx-auto bg-base-100 rounded-lg shadow-xl p-4 md:p-6">
-                    <Outlet />
+                <div className="max-w-full h-full flex flex-col mx-auto bg-base-100 rounded-lg shadow-xl p-4 md:p-6">
+                    {/* Botón de retroceso */}
+                    <button
+                        className="btn btn-ghost btn-circle mb-4"
+                        onClick={() => window.history.back()}
+                        title="Volver"
+                    >
+                        <ArrowBigLeft size={28} />
+                    </button>
+
+                    {/* Contenido dinámico */}
+                    <div className="flex-1">
+                        <Outlet />
+                    </div>
                 </div>
             </div>
 
@@ -187,10 +200,13 @@ export default function AppLayout() {
                             <li>
                                 <a>Ver perfil</a>
                             </li>
-                            <li className="hover:text-red-500" onClick={() => {
-                                logout();
-                                reload();
-                            }}>
+                            <li
+                                className="hover:text-red-500"
+                                onClick={() => {
+                                    logout();
+                                    reload();
+                                }}
+                            >
                                 <a>Cerrar sesion</a>
                             </li>
                         </ul>
